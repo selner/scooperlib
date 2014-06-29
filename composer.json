@@ -12,6 +12,5 @@
     "require": {
         "php":">=5.3.0",
         "katzgrau/klogger": "1.0"
-    },
-
+    }
 }
