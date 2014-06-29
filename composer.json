@@ -1,0 +1,15 @@
+{
+    "name": "selner/scooperlib",
+    "description": "Scooper common PHP library",
+    "require": {
+        "katzgrau/klogger": "1.0"
+    },
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Bryan Selner",
+            "email": "dev@recoilvelocity.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
