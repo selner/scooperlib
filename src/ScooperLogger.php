@@ -86,7 +86,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
 
 
-    function log_line($strToPrint, $varDisplayStyle, $fDebuggingOnly = false)
+    function logLine($strToPrint, $varDisplayStyle, $fDebuggingOnly = false)
     {
         if($fDebuggingOnly != true || C__DEBUG_MODE__ == true)
         {
