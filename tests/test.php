@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(__FILE__)) . '/bootstrap.php';
+require_once dirname(__FILE__) . '/../src/bootstrap.php';
 
 use \Scooper\ScooperLogger;
 
