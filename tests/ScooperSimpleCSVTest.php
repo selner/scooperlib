@@ -1,21 +1,20 @@
 <?php
 require_once dirname(__FILE__) . '/../src/bootstrap.php';
 
-use \Scooper\ScooperSimpleCSV;
+use \Scooper\ScooperConfig;
 
-class ScooperSimpleCSVTest // extends PHPUnit_Framework_TestCase {
+class ScooperSimpleCSVTest // extends \PHPUnit_Framework_TestCase
 {
     private $class = null;
 
     public function setUp()
     {
-        $path = sys_get_temp_dir();
-        $this->class = new \Scooper\ScooperSimpleCSV($path . "/ScooperSimpleCSVTest.csv", 'w');
+        $this->class = new \Scooper\ScooperConfig(dirname(__FILE__) . '/../examples/example_config.ini');
     }
 
     public function testwriteArrayToCSVFile()
     {
-        $this->class->writeArrayToCSVFile(array(array("one", "two")));
+        $this->class->printAllSettings();
 
         // $this->assertInstanceOf('Psr\Log\LoggerInterface', $this->logger);
     }

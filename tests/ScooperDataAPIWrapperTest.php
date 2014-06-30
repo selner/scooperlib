@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../src/bootstrap.php';
 use \Scooper\ScooperDataAPIWrapper;
 
 
-class ScooperDataAPIWrapperTest // extends PHPUnit_Framework_TestCase
+class ScooperDataAPIWrapperTest // extends \PHPUnit_Framework_TestCase
 {
     private $strAPIURL = 'https://api.angel.co/1/startups/redfin';
     private $api = null;

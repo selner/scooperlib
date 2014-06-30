@@ -18,6 +18,7 @@ Namespace Scooper;
 
 use Katzgrau\KLogger\Logger;
 use Psr\Log\LogLevel as LogLevel;
+use ErrorException;
 
 /****************************************************************************************************************/
 /****                                                                                                        ****/
@@ -87,7 +88,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
     function logLine($strToPrint, $varDisplayStyle, $fDebuggingOnly = false)
     {
-        if($fDebuggingOnly != true || C__DEBUG_MODE__ == true)
+        if($fDebuggingOnly != true || \Scooper\C__DEBUG_MODE__ == true)
         {
             $strLineEnd = '';
             $logLevel = null;
@@ -102,7 +103,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
                 case C__DISPLAY_WARNING__:
                     $strLineBeginning = PHP_EOL.PHP_EOL.'^^^^^^^^^^ "';
                     $strLineEnd = '" ^^^^^^^^^^ '.PHP_EOL;
-                    $logLevel = LOG_WARN;
+                    $logLevel = LOG_WARNING;
                     break;
 
                 case C__DISPLAY_SUMMARY__:

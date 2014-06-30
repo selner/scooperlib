@@ -17,7 +17,7 @@ class ScooperFileInfo {
 
     function getFullPathFromFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "")
     {
-        return $arrFileDetails['directory'] . getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);
+        return $arrFileDetails['directory'] . $this->getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);
 
     }
 
@@ -38,7 +38,7 @@ class ScooperFileInfo {
         {
             if(is_dir($strFilePath))
             {
-                $this->$fileDetails['directory'] = $strFilePath;
+                $this->fileDetails['directory'] = $strFilePath;
             }
             else
             {
@@ -68,7 +68,7 @@ class ScooperFileInfo {
 
                 if(!is_dir($this->fileDetails['directory']))
                 {
-                    __log__('Specfied path '.$strFilePath.' does not exist.', \Scooper\C__LOGLEVEL_WARN__);
+                    print('Specfied path '.$strFilePath.' does not exist.'.PHP_EOL);
                 }
                 else
                 {
@@ -87,7 +87,7 @@ class ScooperFileInfo {
 
                     if($fFileMustExist == true && !is_file($this->fileDetails['full_file_path']))
                     {
-                        __log__('Required file '.$this->fileDetails['full_file_path'].' does not exist.', C__LOGLEVEL_WARN__);
+                        print('Required file '.$this->fileDetails['full_file_path'].' does not exist.'.PHP_EOL);
                     }
                 }
             }
