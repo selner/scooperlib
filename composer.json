@@ -15,9 +15,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Scooper\\ScooperLogger\\": "src/ScooperLogger.php",
             "Scooper\\": "src/"
         },
-        "files":["Helpers.php"]
+        "files":["src/Helpers.php"]
     }
 }
