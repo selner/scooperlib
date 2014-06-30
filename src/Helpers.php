@@ -8,7 +8,59 @@ Namespace Scooper;
 
 use Exception;
 
-////////////////////////////////////////////////////////////
+function substr_count_array( $haystack, $needle ) {
+    $count = 0;
+    foreach ($needle as $substring) {
+        $count += substr_count( $haystack, $substring);
+    }
+    return $count;
+}
+
+function is_array_multidimensional($a)
+{
+    if(!is_array($a)) return false;
+    foreach($a as $v) if(is_array($v)) return TRUE;
+    return FALSE;
+}
+
+const C_ARRFLAT_SUBITEM_NONE__ = 0;
+const C_ARRFLAT_SUBITEM_SEPARATOR__ = 1;
+const C_ARRFLAT_SUBITEM_LINEBREAK__ = 2;
+
+
+function array_flatten($arr, $strDelim = '|', $flagsSubItems=C_ARRFLAT_SUBITEM_NONE__)
+{
+    $keys = array_keys($arr);
+    $values= array_values($arr);
+    $output = array();
+    foreach ($keys as $key => $item)
+    {
+        $newVal = $values[$key];
+        if(is_array($newVal))
+        {
+            if(is_array_multidimensional($newVal))
+            {
+                $outputVal = array_flatten($newVal, $strDelim, $flagsSubItems );
+            }
+            else
+            {
+                $outputVal = implode($strDelim, $newVal);
+            }
+        }
+        else
+        {
+            $outputVal = $newVal;
+        }
+        $fIncludeLineBreaks = (substr_count($outputVal, "|") > 1 && ($flagsSubItems & C_ARRFLAT_SUBITEM_LINEBREAK__));
+        $fIncludeSeparators = (substr_count($outputVal, "|") > 1 && ($flagsSubItems & C_ARRFLAT_SUBITEM_SEPARATOR__));
+        $output[$key] = ($fIncludeLineBreaks ? "\n" : "") . ($fIncludeSeparators ? "(" : "") . $outputVal . ($fIncludeSeparators ? ")" : "");
+    }
+    $ret = implode($strDelim, $output);
+
+    return $ret;
+}
+
+////////////////////////////////////////
 //
 // Modified
 // Original Source for getPrimaryDomainFromUrl:  http://php.net/parse_url
