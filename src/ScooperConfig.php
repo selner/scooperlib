@@ -181,51 +181,6 @@ class ScooperConfig extends \Pharse
         return array('type'=> null, 'name'=>null, 'address' => null);
     }
 
-    function get_PharseOptionValue($strOptName)
-    {
-        $retvalue = null;
-        $strOptGiven = $strOptName."_given";
-        if($GLOBALS['OPTS'][$strOptGiven] == true)
-        {
-            $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
-            $retvalue = $GLOBALS['OPTS'][$strOptName];
-        }
-        else
-        {
-            $retvalue = null;
-        }
-
-        return $retvalue;
-    }
-
-    function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
-    {
-        $ret = null;
-        $ret = $this->classFileInfo->parseFilePath($fullpath, $fRequireFile);
-
-        $GLOBALS['logger']->logLine("". $key ." set to [" . var_export($ret, true) . "]", C__DISPLAY_ITEM_DETAIL__);
-
-        $GLOBALS['OPTS'][$key] = $ret;
-
-        return $ret;
-    }
-
-    function set_FileDetails_fromPharseSetting($optUserKeyName, $optDetailsKeyName, $fFileRequired)
-    {
-        $valOpt = $this->get_PharseOptionValue($optUserKeyName);
-        return $this->setGlobalFileDetails($optDetailsKeyName, $fFileRequired, $valOpt);
-    }
-
-
-    function get_FileDetails_fromPharseOption($optUserKeyName, $fFileRequired)
-    {
-        $ret = null;
-        $valOpt = $this->get_PharseOptionValue($optUserKeyName);
-        if($valOpt) $ret = $this->classFileInfo->parseFilePath($valOpt, $fFileRequired);
-
-        return $ret;
-
-    }
 
 
 }
