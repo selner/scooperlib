@@ -18,7 +18,6 @@ Namespace Scooper;
 
 use Katzgrau\KLogger\Logger;
 use Psr\Log\LogLevel as LogLevel;
-use Exception;
 
 /****************************************************************************************************************/
 /****                                                                                                        ****/

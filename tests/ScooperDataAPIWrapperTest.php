@@ -18,10 +18,6 @@ class ScooperDataAPIWrapperTest // extends PHPUnit_Framework_TestCase
     {
         $dataAPI= $this->api->getObjectsFromAPICall($this->strAPIURL, null, \Scooper\C__API_RETURN_TYPE_ARRAY__ , null);
 
-        $this->assertInstanceOf('Psr\Log\LoggerInterface', $this->logger);
+//        $this->assertInstanceOf('Psr\Log\LoggerInterface', $this->logger);
     }
 }
-
-$class = new ScooperDataAPIWrapperTest();
-$class->setUp();
-$class->testgetObjectsFromAPICall();
