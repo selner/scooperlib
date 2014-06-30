@@ -14,8 +14,9 @@
         "katzgrau/klogger": "1.0"
     },
     "autoload": {
-        "psr-0": {
-            "Scooper\\ScooperLogger\\": "src/ScooperLogger.php"
+        "psr-4": {
+            "Scooper\\ScooperLogger\\": "src/ScooperLogger.php",
+            "Scooper\\": "src/"
         }
     }
 }
