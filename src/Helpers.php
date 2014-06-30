@@ -205,15 +205,15 @@ function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
 
 function set_FileDetails_fromPharseSetting($optUserKeyName, $optDetailsKeyName, $fFileRequired)
 {
-    $valOpt = $this->get_PharseOptionValue($optUserKeyName);
-    return $this->setGlobalFileDetails($optDetailsKeyName, $fFileRequired, $valOpt);
+    $valOpt = get_PharseOptionValue($optUserKeyName);
+    return setGlobalFileDetails($optDetailsKeyName, $fFileRequired, $valOpt);
 }
 
 
 function get_FileDetails_fromPharseOption($optUserKeyName, $fFileRequired)
 {
     $ret = null;
-    $valOpt = $this->get_PharseOptionValue($optUserKeyName);
+    $valOpt = get_PharseOptionValue($optUserKeyName);
     if($valOpt) $ret = $this->classFileInfo->parseFilePath($valOpt, $fFileRequired);
 
     return $ret;
