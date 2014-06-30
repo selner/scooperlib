@@ -166,6 +166,13 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
         }
     }
 
+    public function log($message, $level, array $context = array())
+    {
+        print($message .PHP_EOL);
+        parent::log($level, $message, $context);
+
+
+    }
 
     function logSectionHeader($headerText, $nSectionLevel, $nType)
     {
@@ -238,5 +245,5 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
         {
             echo PHP_EOL . ' '.$strSectionType.' ' .PHP_EOL. $strSectionIntroSeparatorLine . PHP_EOL;
         }
-        }
+    }
 }
