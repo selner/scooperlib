@@ -6,7 +6,7 @@
 /****************************************************************************************************************/
 Namespace Scooper;
 
-
+use Exception;
 
 ////////////////////////////////////////////////////////////
 //
@@ -170,6 +170,51 @@ function object_to_array($d) {
         return $d;
     }
 }
+
+
+if (!function_exists('array_copy'))
+{
+// Source: http://www.php.net/manual/en/ref.array.php#81081
+
+    /**
+     * make a recursive copy of an array
+     *
+     * @param array $aSource
+     * @return array    copy of source array
+     * @throws Exception if array is not valid
+     */
+    function array_copy ($aSource) {
+        // check if input is really an array
+        if (!is_array($aSource)) {
+            throw new Exception("Input is not an Array");
+        }
+
+        // initialize return array
+        $aRetAr = array();
+
+        // get array keys
+        $aKeys = array_keys($aSource);
+        // get array values
+        $aVals = array_values($aSource);
+
+        // loop through array and assign keys+values to new return array
+        for ($x=0;$x<count($aKeys);$x++) {
+            // clone if object
+            if (is_object($aVals[$x])) {
+                $aRetAr[$aKeys[$x]]=clone $aVals[$x];
+                // recursively add array
+            } elseif (is_array($aVals[$x])) {
+                $aRetAr[$aKeys[$x]]=array_copy ($aVals[$x]);
+                // assign just a plain scalar value
+            } else {
+                $aRetAr[$aKeys[$x]]=$aVals[$x];
+            }
+        }
+
+        return $aRetAr;
+    }
+}
+
 
 function my_merge_add_new_keys( $arr1, $arr2 )
 {
