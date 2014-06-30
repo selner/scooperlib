@@ -17,14 +17,13 @@
 
 namespace Scooper;
 
-require_once(dirname(dirname(__FILE__)).'/include/pharse.php');
 
 use \Scooper\ScooperFileInfo;
 use \Scooper\ScooperLogger;
 use ErrorException;
 use IniParser;
 
-class ScooperConfig extends \Pharse
+class ScooperConfig
 {
     private $config = null;
 
