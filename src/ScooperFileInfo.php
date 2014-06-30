@@ -48,8 +48,8 @@ class ScooperFileInfo {
 
                 if(count($arrFilePathParts) <= 1)
                 {
-                    $this->$fileDetails['directory'] = ".";
-                    $this->$fileDetails['file_name'] = $arrFilePathParts[0];
+                    $this->fileDetails['directory'] = ".";
+                    $this->fileDetails['file_name'] = $arrFilePathParts[0];
                 }
                 else
                 {
