@@ -171,6 +171,26 @@ function object_to_array($d) {
     }
 }
 
+function my_merge_add_new_keys( $arr1, $arr2 )
+{
+     // check if inputs are really arrays
+    if (!is_array($arr1) || !is_array($arr2)) {
+    }
+    $strFunc = "my_merge_add_new_keys(arr1(size=".count($arr1)."),arr2(size=".count($arr2)."))";
+    $GLOBALS['logger']->logLine($strFunc, C__DISPLAY_FUNCTION__, true);
+    $arr1Keys = array_keys($arr1);
+    $arr2Keys = array_keys($arr2);
+    $arrCombinedKeys = array_merge_recursive($arr1Keys, $arr2Keys);
+
+    $arrNewBlankCombinedRecord = array_fill_keys($arrCombinedKeys, 'unknown');
+
+    $arrMerged =  array_replace( $arrNewBlankCombinedRecord, $arr1 );
+    $arrMerged =  array_replace( $arrMerged, $arr2 );
+
+    $GLOBALS['logger']->logLine('returning from ' . $strFunc, C__DISPLAY_FUNCTION__, true);
+    return $arrMerged;
+}
+
 
 
 
