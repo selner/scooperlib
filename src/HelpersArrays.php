@@ -162,3 +162,33 @@ function my_merge_add_new_keys( $arr1, $arr2 )
     return $arrMerged;
 }
 
+/*
+ * Flattening a multi-dimensional array into a
+ * single-dimensional one. The resulting keys are a
+ * string-separated list of the original keys:
+ *
+ * a[x][y][z] becomes a[implode(sep, array(x,y,z))]
+ */
+
+function array_flatten_sep($sep, $array) {
+    $result = array();
+    $stack = array();
+    array_push($stack, array("", $array));
+
+    while (count($stack) > 0)
+    {
+        list($prefix, $array) = array_pop($stack);
+
+        foreach ($array as $key => $value)
+        {
+            $new_key = $prefix . strval($key);
+
+            if (is_array($value))
+                array_push($stack, array($new_key . $sep, $value));
+            else
+                $result[$new_key] = $value;
+        }
+    }
+
+    return $result;
+}
