@@ -6,7 +6,7 @@
  * not use this file except in compliance with the License. You may obtain
  * a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http:www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -17,13 +17,14 @@
 
 namespace Scooper;
 
+require_once(dirname(dirname(__FILE__)).'/include/pharse.php');
 
 use \Scooper\ScooperFileInfo;
 use \Scooper\ScooperLogger;
 use ErrorException;
 use IniParser;
 
-class ScooperConfig
+class ScooperConfig extends \Pharse
 {
     private $config = null;
 
@@ -180,6 +181,51 @@ class ScooperConfig
         return array('type'=> null, 'name'=>null, 'address' => null);
     }
 
+    function get_PharseOptionValue($strOptName)
+    {
+        $retvalue = null;
+        $strOptGiven = $strOptName."_given";
+        if($GLOBALS['OPTS'][$strOptGiven] == true)
+        {
+            $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
+            $retvalue = $GLOBALS['OPTS'][$strOptName];
+        }
+        else
+        {
+            $retvalue = null;
+        }
+
+        return $retvalue;
+    }
+
+    function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
+    {
+        $ret = null;
+        $ret = $this->classFileInfo->parseFilePath($fullpath, $fRequireFile);
+
+        $GLOBALS['logger']->logLine("". $key ." set to [" . var_export($ret, true) . "]", C__DISPLAY_ITEM_DETAIL__);
+
+        $GLOBALS['OPTS'][$key] = $ret;
+
+        return $ret;
+    }
+
+    function set_FileDetails_fromPharseSetting($optUserKeyName, $optDetailsKeyName, $fFileRequired)
+    {
+        $valOpt = $this->get_PharseOptionValue($optUserKeyName);
+        return $this->setGlobalFileDetails($optDetailsKeyName, $fFileRequired, $valOpt);
+    }
+
+
+    function get_FileDetails_fromPharseOption($optUserKeyName, $fFileRequired)
+    {
+        $ret = null;
+        $valOpt = $this->get_PharseOptionValue($optUserKeyName);
+        if($valOpt) $ret = $this->classFileInfo->parseFilePath($valOpt, $fFileRequired);
+
+        return $ret;
+
+    }
 
 
 }
