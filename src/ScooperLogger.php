@@ -88,7 +88,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
     function logLine($strToPrint, $varDisplayStyle, $fDebuggingOnly = false)
     {
-        if($fDebuggingOnly != true || \Scooper\C__DEBUG_MODE__ == true)
+        if($fDebuggingOnly != true)
         {
             $strLineEnd = '';
             $logLevel = null;
