@@ -18,6 +18,6 @@
         "psr-4": {
             "Scooper\\": "src/"
         },
-        "files":["src/Helpers.php"]
+        "files":["src/Helpers.php", "src/HelpersArrays.php" ]
     }
 }

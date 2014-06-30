@@ -49,7 +49,7 @@ class ScooperConfig
     function printAllSettings()
     {
         $retStr = "CONFIG = " . PHP_EOL;
-        $retStr = $retStr . var_export(object_to_array($this->config), true) . PHP_EOL;
+        $retStr = $retStr . var_export(\Scooper\object_to_array($this->config), true) . PHP_EOL;
         $retStr = $retStr . 'INI file details = ' . var_export($this->detailsIniFile, true) . PHP_EOL;
         $retStr = $retStr . 'Input file details = ' . var_export($this->arrInputFiles, true) . PHP_EOL;
         $retStr = $retStr . 'Output file details = ' . var_export($this->detailsOutputFile, true) . PHP_EOL;
