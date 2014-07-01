@@ -349,6 +349,12 @@ function my_exec($cmd, $input='') {
 }
 
 
+function getTodayAsString()
+{
+    return date("Y-m-d");
+}
+
+
 function intceil($number)
 {
     if(is_string($number)) $number = floatval($number);
