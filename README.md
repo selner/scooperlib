@@ -2,7 +2,8 @@
 Shared library of classes & functions for use with Scooper and Jobs_Scooper.  
 
 To use, add the following to your composer.json:
-    "repositories":[
+    {
+        "repositories":[
         {
             "type":"git",
             "url":"http://github.com/selner/scooperlib"
