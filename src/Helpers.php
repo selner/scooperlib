@@ -9,6 +9,15 @@ Namespace Scooper;
 use Exception;
 
 
+function getDefaultFileName($strFilePrefix, $strBase, $strExt)
+{
+    $strApp = "";
+    if(C__APPNAME__ != "" && C__APPNAME__ != null && strcasecmp(C__APPNAME__, "C__APPNAME__") != 0) { $strApp = C__APPNAME__ . "_"; } else { $strApp = "ScooperLib_"; }
+    return sprintf($strApp . date("Ymd-Hms")."%s_%s.%s", ($strFilePrefix != null ? "_".$strFilePrefix : ""), ($strBase != null  ? "_".$strBase : ""), $strExt);
+}
+
+
+
 ////////////////////////////////////////
 //
 // Modified
