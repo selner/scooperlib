@@ -19,7 +19,7 @@ use ErrorException;
 use Exception;
 
 
-class ScooperSimpleCSV // extends SplFileInfo
+class ScooperSimpleCSV
 {
 
     /***
@@ -90,8 +90,7 @@ class ScooperSimpleCSV // extends SplFileInfo
         {
             throw new Exception("File path including the file name is required to instantiate a SimpleScooperCSVClass. ");
         }
-        $class = new \Scooper\ScooperFileInfo();
-        $this->detailsFile = $class->parseFilePath($fileFullPath, false);
+        $this->detailsFile = \Scooper\parseFilePath($fileFullPath, false);
 
         $this->_openFile_($strAccessMode);
 

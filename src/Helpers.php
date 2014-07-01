@@ -259,8 +259,8 @@ function get_PharseOptionValue($strOptName)
 
 function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
 {
-    $classFileInfo = new ScooperFileInfo();    $ret = null;
-    $ret = $classFileInfo->parseFilePath($fullpath, $fRequireFile);
+     $ret = null;
+    $ret = \Scooper\parseFilePath($fullpath, $fRequireFile);
 
     $GLOBALS['logger']->logLine("". $key ." set to [" . var_export($ret, true) . "]", C__DISPLAY_ITEM_DETAIL__);
 
@@ -279,9 +279,8 @@ function set_FileDetails_fromPharseSetting($optUserKeyName, $optDetailsKeyName, 
 function get_FileDetails_fromPharseOption($optUserKeyName, $fFileRequired)
 {
     $ret = null;
-    $classFileInfo = new ScooperFileInfo();
     $valOpt = get_PharseOptionValue($optUserKeyName);
-    if($valOpt) $ret = $classFileInfo->parseFilePath($valOpt, $fFileRequired);
+    if($valOpt) $ret = \Scooper\parseFilePath($valOpt, $fFileRequired);
 
     return $ret;
 

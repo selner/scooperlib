@@ -18,8 +18,6 @@
 namespace Scooper;
 
 
-use \Scooper\ScooperFileInfo;
-use \Scooper\ScooperLogger;
 use ErrorException;
 use IniParser;
 
@@ -28,7 +26,6 @@ class ScooperConfig
     private $config = null;
 
 
-    private $classFileInfo = null;
     private $detailsIniFile = null;
     private $detailsOutputFile = null;
     private $arrInputFiles = null;
@@ -36,10 +33,9 @@ class ScooperConfig
 
     function __construct($strINIFileFullPath)
     {
-        $this->classFileInfo = new ScooperFileInfo();
         if(strlen($strINIFileFullPath) > 0)
         {
-            $this->detailsIniFile = $this->classFileInfo->parseFilePath($strINIFileFullPath, true);
+            $this->detailsIniFile = \Scooper\parseFilePath($strINIFileFullPath, true);
             $iniParser = new IniParser($this->detailsIniFile['full_file_path']);
             $this->config = $iniParser->parse();
         }
@@ -104,7 +100,7 @@ class ScooperConfig
         $GLOBALS['logger']->logLine("Created folder for results output: " . $fullNewDirectory , C__DISPLAY_SUMMARY__);
 
         // return the new directory details
-        return $this->classFileInfo->parseFilePath($fullNewDirectory, false);
+        return \Scooper\parseFilePath($fullNewDirectory, false);
     }
 
 
@@ -114,7 +110,7 @@ class ScooperConfig
         {
             if($this->config->output->folder)
             {
-                $this->detailsOutputFile = $this->classFileInfo->parseFilePath($this->config->output->folder, false);
+                $this->detailsOutputFile = \Scooper\parseFilePath($this->config->output->folder, false);
             }
 
         }
@@ -137,14 +133,14 @@ class ScooperConfig
         $pathInput = "";
         if($this->config->input && $this->config->input->folder)
         {
-            $pathInput = $this->classFileInfo->parseFilePath($this->config->input->folder);
+            $pathInput = \Scooper\parseFilePath($this->config->input->folder);
         }
 
         if($this->config->inputfiles)
         {
             foreach($this->config->inputfiles as $iniInputFile)
             {
-                $tempFileDetails = $this->classFileInfo->parseFilePath($pathInput['directory'].$iniInputFile['name'], true);
+                $tempFileDetails = \Scooper\parseFilePath($pathInput['directory'].$iniInputFile['name'], true);
 
                 $GLOBALS['logger']->logLine("Processing input file '" . $pathInput['directory'].$iniInputFile['name'] . "' with type of '". $iniInputFile['type'] . "'...", C__DISPLAY_NORMAL__);
                 $this->__addInputFile__($tempFileDetails, $iniInputFile['type'], $iniInputFile['sheet']);
