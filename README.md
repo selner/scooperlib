@@ -2,8 +2,12 @@
 Shared library of classes & functions for use with Scooper and Jobs_Scooper.  
 
 To use, add the following to your composer.json:
+<<<<<<< HEAD
  ```
    {
+=======
+    {
+>>>>>>> FETCH_HEAD
         "repositories":[
         {
             "type":"git",
@@ -27,7 +31,11 @@ To use, add the following to your composer.json:
     "require": {
         "selner/scooperlib": "master"
    }
+<<<<<<< HEAD
 ```
+=======
+
+>>>>>>> FETCH_HEAD
 
 #Notes
 * Version:  v1.0
@@ -40,4 +48,8 @@ To use, add the following to your composer.json:
 * Issues/Bugs:  See [https://github.com/selner/scooper/issues](https://github.com/selner/scooper/issues)
 
 ##License
+<<<<<<< HEAD
 This product is licensed under the GPL (http://www.gnu.org/copyleft/gpl.html). It comes with no warranty, expressed or implied.
+=======
+This product is licensed under the GPL (http://www.gnu.org/copyleft/gpl.html). It comes with no warranty, expressed or implied.
+>>>>>>> FETCH_HEAD
