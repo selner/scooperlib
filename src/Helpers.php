@@ -19,7 +19,7 @@ function getDefaultFileName($strFilePrefix, $strBase, $strExt)
 
 function getFullPathFromFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "")
 {
-    return $arrFileDetails['directory'] . $this->getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);
+    return $arrFileDetails['directory'] . getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);
 
 }
 
@@ -255,6 +255,7 @@ function get_PharseOptionValue($strOptName)
 
     return $retvalue;
 }
+
 
 function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
 {
