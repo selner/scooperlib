@@ -17,6 +17,97 @@ function getDefaultFileName($strFilePrefix, $strBase, $strExt)
 }
 
 
+function getFullPathFromFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "")
+{
+    return $arrFileDetails['directory'] . $this->getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);
+
+}
+
+function getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "")
+{
+    return $strPrependToFileBase . $arrFileDetails['file_name_base'] . $strAppendToFileBase . "." . $arrFileDetails['file_extension'];
+}
+
+function __construct()
+{
+}
+
+function parseFilePath($strFilePath, $fFileMustExist = false)
+{
+    $fileDetails = array ('full_file_path' => '', 'directory' => '', 'file_name' => '', 'file_name_base' => '', 'file_extension' => '');
+
+    if(strlen($strFilePath) > 0)
+    {
+        if(is_dir($strFilePath))
+        {
+            $fileDetails['directory'] = $strFilePath;
+        }
+        else
+        {
+
+            // separate into elements by '/'
+            $arrFilePathParts = explode("/", $strFilePath);
+
+            if(count($arrFilePathParts) <= 1)
+            {
+                $fileDetails['directory'] = ".";
+                $fileDetails['file_name'] = $arrFilePathParts[0];
+            }
+            else
+            {
+                // pop the last element (the file name + extension) into a string
+                $fileDetails['file_name'] = array_pop($arrFilePathParts);
+
+                // put the rest of the path parts back together into a path string
+                $fileDetails['directory']= implode("/", $arrFilePathParts);
+            }
+
+            if(strlen($fileDetails['directory']) == 0 && strlen($fileDetails['file_name']) > 0 && file_exists($fileDetails['file_name']))
+            {
+                $fileDetails['directory'] = dirname($fileDetails['file_name']);
+
+            }
+
+            if(!is_dir($fileDetails['directory']))
+            {
+                print('Specfied path '.$strFilePath.' does not exist.'.PHP_EOL);
+            }
+            else
+            {
+                // since we have a directory and a file name, combine them into the full file path
+                $fileDetails['full_file_path'] = $fileDetails['directory'] . "/" . $fileDetails['file_name'];
+
+                // separate the file name by '.' to break the extension out
+                $arrFileNameParts = explode(".", $fileDetails['file_name']);
+
+                // pop off the extension
+                $fileDetails['file_extension'] = array_pop($arrFileNameParts );
+
+                // put the rest of the filename back together into a string.
+                $fileDetails['file_name_base'] = implode(".", $arrFileNameParts );
+
+
+                if($fFileMustExist == true && !is_file($fileDetails['full_file_path']))
+                {
+                    print('Required file '.$fileDetails['full_file_path'].' does not exist.'.PHP_EOL);
+                }
+            }
+        }
+    }
+
+    // Make sure the directory part ends with a slash always
+    $strDir = $fileDetails['directory'];
+
+    if((strlen($strDir) >= 1) && $strDir[strlen($strDir)-1] != "/")
+    {
+        $fileDetails['directory'] = $fileDetails['directory'] . "/";
+    }
+
+    return $fileDetails;
+
+}
+
+
 
 ////////////////////////////////////////
 //
