@@ -347,3 +347,14 @@ function my_exec($cmd, $input='') {
         'return'=>$rtn
     );
 }
+
+
+function intceil($number)
+{
+    if(is_string($number)) $number = floatval($number);
+
+    $ret = ( is_numeric($number) ) ? ceil($number) : false;
+    if ($ret != false) $ret = intval($ret);
+
+    return $ret;
+}
