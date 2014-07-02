@@ -63,17 +63,14 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
     }
 
-    function __construct($strBaseFileName = null, $strOutputDirPath = null )
-    {
-        $fileLogFullPath = getDefaultFileName(null, $strBaseFileName, "log");
 
+    function __construct($strOutputDirPath = null )
+    {
         $GLOBALS['logger'] = null;
 
-        parent::__construct($fileLogFullPath, LogLevel::DEBUG);
+        parent::__construct($strOutputDirPath, LogLevel::DEBUG);
 
         $GLOBALS['logger'] = $this;
-
-        $this->log("Initialized output log:  ".$fileLogFullPath, LOG_INFO);
     }
 
 
