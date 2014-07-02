@@ -241,7 +241,7 @@ function get_PharseOptionValue($strOptName)
     $strOptGiven = $strOptName."_given";
     if($GLOBALS['OPTS'][$strOptGiven] == true)
     {
-        $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
         $retvalue = $GLOBALS['OPTS'][$strOptName];
     }
     else
@@ -258,7 +258,7 @@ function setGlobalFileDetails($key, $fRequireFile = false, $fullpath = null)
      $ret = null;
     $ret = \Scooper\parseFilePath($fullpath, $fRequireFile);
 
-    $GLOBALS['logger']->logLine("". $key ." set to [" . var_export($ret, true) . "]", C__DISPLAY_ITEM_DETAIL__);
+    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("". $key ." set to [" . var_export($ret, true) . "]", C__DISPLAY_ITEM_DETAIL__);
 
     $GLOBALS['OPTS'][$key] = $ret;
 
