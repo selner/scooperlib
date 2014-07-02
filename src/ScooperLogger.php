@@ -55,12 +55,13 @@ const C__DISPLAY_SUMMARY__ = 750;
 
 Class ScooperLogger extends \Katzgrau\KLogger\Logger
 {
+    protected $arrCumulativeErrors = array();
 
 
     function addToErrs(&$strErr, $strNew)
     {
         $strErr = (strlen($strErr) > 0 ? "; " : ""). $strNew;
-
+        $this->arrCumulativeErrors[] = $strNew;
     }
 
 
@@ -68,6 +69,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
     {
         $GLOBALS['logger'] = null;
 
+        if(!isset($strOutputDirPath)) { $strOutputDirPath = sys_get_temp_dir(); }
         parent::__construct($strOutputDirPath, LogLevel::DEBUG);
 
         $GLOBALS['logger'] = $this;
@@ -158,6 +160,8 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
     public function log($message, $level, array $context = array())
     {
+        if($level == C__DISPLAY_ERROR__) {  $this->arrCumulativeErrors[] = $message; }
+
         print($message .PHP_EOL);
         parent::log($level, $message, $context);
 
@@ -236,4 +240,25 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
             echo PHP_EOL . ' '.$strSectionType.' ' .PHP_EOL. $strSectionIntroSeparatorLine . PHP_EOL;
         }
     }
+
+    public function getCumulativeErrors()
+    {
+        return $this->arrCumulativeErrors;
+    }
+
+    public function getCumulativeErrorsAsString()
+    {
+        $strErrors = "";
+
+        if(is_array($this->arrCumulativeErrors) && count($this->arrCumulativeErrors) > 0)
+        {
+            foreach($this->arrCumulativeErrors as $err)
+            {
+                $strErrors = $strErrors . PHP_EOL . $err;
+            }
+        }
+
+        return $strErrors;
+    }
+
 }
