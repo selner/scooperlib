@@ -274,23 +274,29 @@ class ScooperSimpleCSV
             foreach($arrFieldsToUseInKey as $fieldName)
             {
                 $strHTMLReturn .= "<td>";
-                $linkCount = substr_count($rec[$fieldName], "http");
-                switch ($linkCount)
+                if(substr_count($rec[$fieldName], "<a href") <= 0)
                 {
-                    case 0:
-                        $strHTMLReturn .= $rec[$fieldName];
-                        break;
+                    $linkCount = substr_count($rec[$fieldName], "http");
+                    switch ($linkCount)
+                    {
+                        case 0:
+                            $strHTMLReturn .= $rec[$fieldName];
+                            break;
 
-                    case 1:
-                        $strLink = substr($rec[$fieldName], 0, 50);
-                        $strHTMLReturn .= "<a href='" . $rec[$fieldName] . "'>" . $strLink . "</a>";
-                        break;
+                        case 1:
+                            $strLink = substr($rec[$fieldName], 0, 50);
+                            $strHTMLReturn .= "<a href='" . $rec[$fieldName] . "'>" . $strLink . "</a>";
+                            break;
 
-                    default:
-                        $strHTMLReturn .= linkify($rec[$fieldName]);
-                        break;
+                        default:
+                            $strHTMLReturn .= linkify($rec[$fieldName]);
+                            break;
+                    }
                 }
-                $strHTMLReturn .= "</td>";
+                else
+                {
+                    $strHTMLReturn .= $rec[$fieldName];
+                }
             }
             $strHTMLReturn .= "</tr>";
         }
@@ -302,6 +308,7 @@ class ScooperSimpleCSV
         return $strHTMLReturn;
 
     }
+
 
 
     function getSortedDeDupedCSVArray($arrCSVRows, $arrFieldsToUseInKey)
