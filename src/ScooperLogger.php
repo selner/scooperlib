@@ -250,9 +250,10 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
     {
         $strErrors = "";
 
-        if(is_array($this->arrCumulativeErrors) && count($this->arrCumulativeErrors) > 0)
+        $arrErr = $this->getCumulativeErrors();
+        if(is_array($arrErr ) && count($arrErr) > 0)
         {
-            foreach($this->arrCumulativeErrors as $err)
+            foreach($arrErr as $err)
             {
                 $strErrors = $strErrors . PHP_EOL . $err;
             }
