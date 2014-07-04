@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../src/bootstrap.php';
+require_once dirname(__FILE__) . '/../tests/testsHelpers.php';
+
 require_once dirname(__FILE__) . '/../tests/ScooperDataAPIWrapperTest.php';
 require_once dirname(__FILE__) . '/../tests/ScooperSimpleCSVTest.php';
 
@@ -8,6 +10,7 @@ use \Scooper\ScooperLogger;
 use \Scooper\ScooperDataAPIWrapper;
 use \Scooper\ScooperSimpleCSV;
 
+testAllHelpers();
 
 $class = new ScooperLogger();
 $class->logLine("Test", \Scooper\C__DISPLAY_ERROR__);
