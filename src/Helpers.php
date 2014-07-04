@@ -189,7 +189,7 @@ function strScrub($str, $flags = null)
 
     if ($flags & REMOVE_PUNCT)  // has to come after HTML_DECODE
     {
-        $ret = strip_punctuation($ret);
+        $ret = \Scooper\strip_punctuation($ret);
     }
 
     if ($flags & REMOVE_ALL_SPACES)
