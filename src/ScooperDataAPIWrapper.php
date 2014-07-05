@@ -139,14 +139,13 @@ class ScooperDataAPIWrapper {
         if($content_type  != null) $header[] = ', X-On-Behalf-Of: ' . $onbehalf;
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_VERBOSE,  C__FSHOWVERBOSE_APICALL__);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 10 );
         curl_setopt($ch, CURLOPT_URL, $full_url);
         curl_setopt($ch, CURLOPT_USERAGENT, C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_VERBOSE, C__FSHOWVERBOSE_APICALL__);
+        curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE']);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
         // curlWrapNew = only?
@@ -196,11 +195,21 @@ class ScooperDataAPIWrapper {
         $last_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
         $curl_object['actual_site_url'] = strtolower($last_url);
-        if (curl_errno($ch)) {
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if (curl_errno($ch))
+        {
             $strErr = 'Error #' . curl_errno($ch) . ': ' . curl_error($ch);
             $curl_object['error_number'] = curl_errno($ch);
             $curl_object['output'] = curl_error($ch);
+            curl_close($ch);
             throw new ErrorException($strErr,curl_errno($ch),E_RECOVERABLE_ERROR );
+        }     /* If the document has loaded successfully without any redirection or error */
+        elseif ($httpCode >= 200 && $httpCode < 300)
+        {
+            $strErr = "CURL received an HTTP error #". $httpCode;
+            $curl_object['http_error_number'] = $httpCode;
+            curl_close($ch);
+            throw new ErrorException($strErr, E_RECOVERABLE_ERROR );
         }
         else
         {
