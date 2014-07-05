@@ -142,7 +142,7 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 10 );
         curl_setopt($ch, CURLOPT_URL, $full_url);
-        curl_setopt($ch, CURLOPT_USERAGENT, C__STR_USER_AGENT__);
+        curl_setopt($ch, CURLOPT_USERAGENT, \Scooper\C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE']);
