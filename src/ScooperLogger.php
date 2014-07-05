@@ -160,7 +160,7 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
 
     public function log($message, $level, array $context = array())
     {
-        if($level == C__DISPLAY_ERROR__) {  $this->arrCumulativeErrors[] = $message; }
+        if($level == LOG_ERR) {  $this->arrCumulativeErrors[] = $message; }
 
         print($message .PHP_EOL);
         parent::log($level, $message, $context);
