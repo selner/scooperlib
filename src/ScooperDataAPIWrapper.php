@@ -204,7 +204,7 @@ class ScooperDataAPIWrapper {
             curl_close($ch);
             throw new ErrorException($strErr,curl_errno($ch),E_RECOVERABLE_ERROR );
         }     /* If the document has loaded successfully without any redirection or error */
-        elseif ($httpCode >= 200 && $httpCode < 300)
+        elseif ($httpCode < 200 && $httpCode > 300)
         {
             $strErr = "CURL received an HTTP error #". $httpCode;
             $curl_object['http_error_number'] = $httpCode;
