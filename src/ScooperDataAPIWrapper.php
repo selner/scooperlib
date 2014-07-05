@@ -190,7 +190,6 @@ class ScooperDataAPIWrapper {
 
 
         $output = curl_exec($ch);
-        $curl_object['output'] = $output;
         $curl_object['input_url'] = $full_url;
         $last_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
@@ -204,15 +203,17 @@ class ScooperDataAPIWrapper {
             curl_close($ch);
             throw new ErrorException($strErr,curl_errno($ch),E_RECOVERABLE_ERROR );
         }     /* If the document has loaded successfully without any redirection or error */
-        elseif ($httpCode < 200 && $httpCode > 300)
+        elseif ($httpCode < 200 || $httpCode > 300)
         {
             $strErr = "CURL received an HTTP error #". $httpCode;
             $curl_object['http_error_number'] = $httpCode;
+            $curl_object['error_number'] = -1;
             curl_close($ch);
             throw new ErrorException($strErr, E_RECOVERABLE_ERROR );
         }
         else
         {
+            $curl_object['output'] = $output;
             curl_close($ch);
         }
 
