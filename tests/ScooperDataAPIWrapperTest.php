@@ -6,7 +6,8 @@ use \Scooper\ScooperDataAPIWrapper;
 
 class ScooperDataAPIWrapperTest // extends \PHPUnit_Framework_TestCase
 {
-    private $strAPIURL = 'https://api.angel.co/1/startups/redfin';
+    // get Redfin's page from angel.co
+    private $strAPIURL = 'https://api.angel.co/1/startups/32385';
     private $api = null;
 
     public function setUp()
