@@ -23,6 +23,7 @@ const C__STR_USER_AGENT__ = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) Appl
 const C__API_RETURN_TYPE_OBJECT__ = 33;
 const C__API_RETURN_TYPE_ARRAY__ = 44;
 
+
 class ScooperDataAPIWrapper {
 
     /****************************************************************************************************************/
@@ -82,7 +83,7 @@ class ScooperDataAPIWrapper {
                 //
                 if($srcdata->next_page)
                 {
-                    if($GLOBALS['OPTS']['VERBOSE'] == true) { __debug__printLine('Multipage results detected. Getting results for ' . $srcdata->next_page . '...' . PHP_EOL, C__DISPLAY_ITEM_DETAIL__); }
+                    if($GLOBALS['OPTS']['VERBOSE'] == true) { if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine('Multipage results detected. Getting results for ' . $srcdata->next_page . '...' . PHP_EOL, C__DISPLAY_ITEM_DETAIL__); }
 
                     // $patternPage = "/.*page=([0-9]{1,})/";
                     $patternPagePrefix = "/.*page=/";
@@ -145,7 +146,7 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_USERAGENT, \Scooper\C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE']);
+        if($GLOBALS['OPTS']['VERBOSE_API_CALLS'] != null) curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE_API_CALLS']);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
         // curlWrapNew = only?

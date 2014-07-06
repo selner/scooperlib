@@ -148,7 +148,7 @@ function my_merge_add_new_keys( $arr1, $arr2 )
     if (!is_array($arr1) || !is_array($arr2)) {
     }
     $strFunc = "my_merge_add_new_keys(arr1(size=".count($arr1)."),arr2(size=".count($arr2)."))";
-    $GLOBALS['logger']->logLine($strFunc, C__DISPLAY_FUNCTION__, true);
+    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine($strFunc, C__DISPLAY_FUNCTION__, true);
     $arr1Keys = array_keys($arr1);
     $arr2Keys = array_keys($arr2);
     $arrCombinedKeys = array_merge_recursive($arr1Keys, $arr2Keys);
