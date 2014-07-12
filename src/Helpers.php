@@ -30,7 +30,7 @@ function getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase = "",
 
 function parseFilePath($strFilePath, $fFileMustExist = false)
 {
-    $fileDetails = array ('full_file_path' => '', 'directory' => '', 'file_name' => '', 'file_name_base' => '', 'file_extension' => '');
+    $fileDetails = array ('full_file_path' => '', 'directory' => '', 'file_name' => '', 'file_name_base' => '', 'file_extension' => '', 'has_directory' => false, 'has_file' => false );
 
     if(strlen($strFilePath) > 0)
     {
@@ -97,6 +97,17 @@ function parseFilePath($strFilePath, $fFileMustExist = false)
     if((strlen($strDir) >= 1) && $strDir[strlen($strDir)-1] != "/")
     {
         $fileDetails['directory'] = $fileDetails['directory'] . "/";
+    }
+
+    if(strlen($fileDetails['directory']) > 0) { $fileDetails['has_directory'] = true; }
+    if(strlen($fileDetails['file_extension']) > 0 && strlen($fileDetails['file_name']) > 0)
+    {
+         $fileDetails['has_file'] = true;
+    }
+    else
+    {
+        $fileDetails['full_file_path'] = '';
+        $fileDetails['has_file'] = false;
     }
 
     return $fileDetails;
