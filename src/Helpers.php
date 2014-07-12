@@ -8,6 +8,13 @@ Namespace Scooper;
 
 use Exception;
 
+function isBitFlagSet($flagSettings, $flagToCheck)
+{
+    $ret = ($flagSettings & $flagToCheck);
+    if($ret == $flagToCheck) { return true; }
+    return false;
+}
+
 
 function getDefaultFileName($strFilePrefix, $strBase, $strExt)
 {
@@ -28,89 +35,167 @@ function getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase = "",
     return $strPrependToFileBase . $arrFileDetails['file_name_base'] . $strAppendToFileBase . "." . $arrFileDetails['file_extension'];
 }
 
+CONST C__FILEPATH_NO_FLAGS = 0x0;
+CONST C__FILEPATH_FILE_MUST_EXIST = 0x1;
+CONST C__FILEPATH_DIRECTORY_MUST_EXIST = 0x2;
+CONST C__FILEPATH_CREATE_DIRECTORY_PATH_IF_NEEDED= 0x4;
+
 function parseFilePath($strFilePath, $fFileMustExist = false)
 {
-    $fileDetails = array ('full_file_path' => '', 'directory' => '', 'file_name' => '', 'file_name_base' => '', 'file_extension' => '', 'has_directory' => false, 'has_file' => false );
+    return getFilePathDetailsFromString($strFilePath, ($fFileMustExist ? C__FILEPATH_FILE_MUST_EXIST : C__FILEPATH_NO_FLAGS));
+}
 
-    if(strlen($strFilePath) > 0)
+function getFilePathDetailsFromString($strFilePath, $flags = C__FILEPATH_NO_FLAGS)
+{
+    $fileDetailsReturn = array ('directory' => '', 'has_directory' => false, 'file_name' => '', 'has_file' => false, 'file_name_base' => '', 'file_extension' => '', 'full_file_path' => '' );
+
+
+    if($strFilePath == null || strlen($strFilePath) <= 0)
     {
-        if(is_dir($strFilePath))
+        return $fileDetailsReturn;
+    }
+
+    // if the path doesn't start with a '/', it's a relative path
+    //
+    $fPathIsRelative = !(substr($strFilePath, 0, 1) == '/');
+
+    //************************************************************************
+    //
+    // First, pull the path string apart into it's component directories and possible filename
+    // by separating the path elements by '/'
+    $arrInputPathAllParts = explode("/", $strFilePath);
+
+    // Setup a string value for the last element (usually a filename, but could be directory)
+    //
+    $finalPathPart_String = $arrInputPathAllParts[count($arrInputPathAllParts)-1];
+
+    // Setup array value for the last element separated by '.'.  We'll assume that if there
+    // was a '.' then the last element was a filename, not a directory (and vice versa.)
+    //
+    $finalPathPart_DotArray = $arrLastTermParts = explode(".", $finalPathPart_String);
+
+    // Lastly, set an array value for all the directory parts minus the last one
+    //
+    $arrPathParts_AllButFinal = $arrInputPathAllParts;  // copy the full list of parts and then...
+    unset($arrPathParts_AllButFinal[count($arrPathParts_AllButFinal)-1]); // ... remove the last part
+
+
+    //************************************************************************
+    //
+    // Now let's figure out what each part really maps to and setup the array with names for returning
+    // to the caller.
+    //
+    // If AllParts only has one item, then there were no "/" characters in the path string.
+    // So assume the path was either a filename only OR a relative directory path with no trailing '/'
+    //
+    if(substr($strFilePath, (strlen($strFilePath) - 1), 1) == '/' || // if the path ended with a / or...
+        count($finalPathPart_DotArray) == 1) // ... only the last part had no '.' so isn't a filename
+    {
+        //
+        // There was no filename on the input path
+        //
+        $fileDetailsReturn['has_file'] = false;
+
+        // add any beginning path parts to the directory path...
+        if(count($arrPathParts_AllButFinal) > 0)
         {
-            $fileDetails['directory'] = $strFilePath;
+            $strDirectory = join("/", $arrPathParts_AllButFinal);
+            // and add the final part to the end
+            $strDirectory .= "/" . $finalPathPart_String;
         }
-        else
+        else // otherwise, the directory is just the final part
         {
+            $strDirectory = $finalPathPart_String;
+        }
+        $fileDetailsReturn['has_directory'] = true;
+        $fileDetailsReturn['directory'] = $strDirectory;
+    }
+    else // we have a filename at least
+    {
+        assert(count($finalPathPart_DotArray) > 1);
 
-            // separate into elements by '/'
-            $arrFilePathParts = explode("/", $strFilePath);
+        // we did have a '.' so let's assume this term is a filename
+        $fileDetailsReturn['file_name'] = $finalPathPart_String;
 
-            if(count($arrFilePathParts) <= 1)
+        // the last portion of the split filename is the extension
+        $fileDetailsReturn['file_extension'] = $finalPathPart_DotArray[count($finalPathPart_DotArray)-1];
+
+        // everything else is the base name for the file
+        $fileDetailsReturn['file_name_base'] = join(".", array_splice($finalPathPart_DotArray,0,count($finalPathPart_DotArray)-1));
+        $fileDetailsReturn['has_file'] = true;
+
+
+        // Set the directory part to everything before the last part
+        if(count($arrPathParts_AllButFinal) > 0)
+        {
+            // if the first part is "" then the path part
+            // was actually "/<something>" so put the / back
+            if(count($arrPathParts_AllButFinal) == 1 && strlen($arrPathParts_AllButFinal[0]) == 0)
             {
-                $fileDetails['directory'] = ".";
-                $fileDetails['file_name'] = $arrFilePathParts[0];
+                $fileDetailsReturn['directory'] = "/";
             }
-            else
-            {
-                // pop the last element (the file name + extension) into a string
-                $fileDetails['file_name'] = array_pop($arrFilePathParts);
+            $fileDetailsReturn['directory'] .= join("/", $arrPathParts_AllButFinal);
+            $fileDetailsReturn['has_directory'] = true;
+        }
 
-                // put the rest of the path parts back together into a path string
-                $fileDetails['directory']= implode("/", $arrFilePathParts);
-            }
-
-            if(strlen($fileDetails['directory']) == 0 && strlen($fileDetails['file_name']) > 0 && file_exists($fileDetails['file_name']))
-            {
-                $fileDetails['directory'] = dirname($fileDetails['file_name']);
-
-            }
-
-            if(!is_dir($fileDetails['directory']))
-            {
-                print('Specfied path '.$strFilePath.' does not exist.'.PHP_EOL);
-            }
-            else
-            {
-                // since we have a directory and a file name, combine them into the full file path
-                $fileDetails['full_file_path'] = $fileDetails['directory'] . "/" . $fileDetails['file_name'];
-
-                // separate the file name by '.' to break the extension out
-                $arrFileNameParts = explode(".", $fileDetails['file_name']);
-
-                // pop off the extension
-                $fileDetails['file_extension'] = array_pop($arrFileNameParts );
-
-                // put the rest of the filename back together into a string.
-                $fileDetails['file_name_base'] = implode(".", $arrFileNameParts );
-
-
-                if($fFileMustExist == true && !is_file($fileDetails['full_file_path']))
-                {
-                    print('Required file '.$fileDetails['full_file_path'].' does not exist.'.PHP_EOL);
-                }
-            }
+        // if there were no other parts, so set the directory to be relative to the file
+        if($fileDetailsReturn['has_directory'] == false)
+        {
+            $fileDetailsReturn['directory'] = "./";
+            $fileDetailsReturn['has_directory'] = true;
         }
     }
 
-    // Make sure the directory part ends with a slash always
-    $strDir = $fileDetails['directory'];
+    assert($fileDetailsReturn['has_directory'] == true);
 
-    if((strlen($strDir) >= 1) && $strDir[strlen($strDir)-1] != "/")
+    // Make sure the directory value always ends with a slash
+    // (makes it easier for callers to depend on it)
+    //
+    if((strlen($fileDetailsReturn['directory']) >= 1) &&
+        $fileDetailsReturn['directory'][strlen($fileDetailsReturn['directory'])-1] != "/")
     {
-        $fileDetails['directory'] = $fileDetails['directory'] . "/";
+        $fileDetailsReturn['directory'] = $fileDetailsReturn['directory'] . "/";
     }
 
-    if(strlen($fileDetails['directory']) > 0) { $fileDetails['has_directory'] = true; }
-    if(strlen($fileDetails['file_extension']) > 0 && strlen($fileDetails['file_name']) > 0)
+    if($fileDetailsReturn['has_file'])
     {
-         $fileDetails['has_file'] = true;
+        $fileDetailsReturn['full_file_path'] = $fileDetailsReturn['directory'] . $fileDetailsReturn['file_name'];
+
+
+        assert($fileDetailsReturn['file_name'] == $fileDetailsReturn['file_name_base'] . "." . $fileDetailsReturn['file_extension']);
+        assert($fileDetailsReturn['full_file_path'] == $fileDetailsReturn['directory'] . $fileDetailsReturn['file_name_base'] . "." . $fileDetailsReturn['file_extension']);
+
     }
     else
     {
-        $fileDetails['full_file_path'] = '';
-        $fileDetails['has_file'] = false;
+        $fileDetailsReturn['full_file_path'] = '';
     }
 
-    return $fileDetails;
+
+    //
+    // At this point, we've set the values for the return array completely
+    //
+
+
+    if(isBitFlagSet($flags, C__FILEPATH_DIRECTORY_MUST_EXIST) && !is_dir($fileDetailsReturn['directory']))
+    {
+        throw new \ErrorException("Directory '" . $fileDetailsReturn['directory'] . "' does not exist.");
+    }
+
+    if(isBitFlagSet($flags, C__FILEPATH_FILE_MUST_EXIST) && !is_file($fileDetailsReturn['full_file_path']))
+    {
+        throw new \ErrorException("File '" . $fileDetailsReturn['full_file_path'] . "' does not exist.");
+    }
+
+    if(isBitFlagSet($flags, C__FILEPATH_CREATE_DIRECTORY_PATH_IF_NEEDED) && !is_dir($strFilePath))
+    {
+        mkdir($fileDetailsReturn['directory'], 0777, true);
+    }
+
+
+
+
+    return $fileDetailsReturn;
 
 }
 
