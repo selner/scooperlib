@@ -21,4 +21,5 @@ $classAPI->testgetObjectsFromAPICall();
 
 $classCSV = new ScooperSimpleCSVTest();
 $classCSV->setUp();
-$classCSV->testwriteArrayToCSVFile();
+$classCSV->testWriteArrayToFile("csv");
+$classCSV->testWriteArrayToFile("html");

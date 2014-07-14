@@ -49,6 +49,7 @@ function testStrScrub()
 
 function testFilePathParse($strPath, $fShouldHaveDir, $fShouldHaveFile)
 {
+    print("Testing fileParse of " . $strPath . PHP_EOL);
     $details = \Scooper\parseFilePath($strPath);
     if($fShouldHaveDir == true)
     {

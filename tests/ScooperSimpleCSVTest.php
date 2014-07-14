@@ -1,21 +1,36 @@
 <?php
 require_once dirname(__FILE__) . '/../src/bootstrap.php';
 
-use \Scooper\ScooperConfig;
 
 class ScooperSimpleCSVTest // extends \PHPUnit_Framework_TestCase
 {
-    private $class = null;
+    private $arrTest = null;
 
     public function setUp()
     {
-        $this->class = new \Scooper\ScooperConfig(dirname(__FILE__) . '/../examples/example_config.ini');
+        $GLOBALS['logger'] = new \Scooper\ScooperLogger(sys_get_temp_dir());
+
+        $this->arrTest = array(array("one", "two"));
     }
 
-    public function testwriteArrayToCSVFile()
+    public function testWriteArrayToFile($strExt)
     {
-        $this->class->printAllSettings();
+        $strOutFile = sys_get_temp_dir(). "/ScooperSimpleCSVTest.".$strExt;
+        $class = new \Scooper\ScooperSimpleCSV($strOutFile, 'w');
+        print("Writing array to " . $strOutFile .PHP_EOL);
+        switch(strtolower($strExt))
+        {
 
-        // $this->assertInstanceOf('Psr\Log\LoggerInterface', $this->logger);
+            case "csv":
+                $class->writeArrayToCSVFile($this->arrTest);
+                break;
+
+            case "html":
+            case "htm":
+            $class->writeArrayToHTMLFile($this->arrTest);
+                break;
+        }
+
     }
+
 }
