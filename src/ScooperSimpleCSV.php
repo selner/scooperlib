@@ -197,6 +197,10 @@ class ScooperSimpleCSV
         {
             $this->_resetFile();
         }
+        if(!$keys)
+        {
+            $keys = array_keys($records[0]);
+        }
 
         $htmlOut = $this->getHTMLTableForCSV($records, $keys, $strCSSToInclude);
 
@@ -257,23 +261,22 @@ class ScooperSimpleCSV
         }
 
         $strHTMLReturn .= "<table class='CSVTable'>";
-
-        $strHTMLReturn .= "<tr>";
+        $strHTMLReturn .= "<thead><tr class=\"CSVTableHeaderRow\">";
         foreach($arrFieldsToUseInKey as $fieldName)
         {
-            $strHTMLReturn .= "<td>";
+            $strHTMLReturn .= "<th class=\"CSVTableHeaderCell\">";
             $strHTMLReturn .= $fieldName;
-            $strHTMLReturn .= "</td>";
+            $strHTMLReturn .= "</th>";
         }
-        $strHTMLReturn .= "</tr>";
+        $strHTMLReturn .= "</tr></thead>";
 
 
         foreach($arrCSVRows as $rec)
         {
-            $strHTMLReturn .= "<tr>";
+            $strHTMLReturn .= "<tr class=\"CSVTableRow\">";
             foreach($arrFieldsToUseInKey as $fieldName)
             {
-                $strHTMLReturn .= "<td>";
+                $strHTMLReturn .= "<td class=\"CSVTableCell\">";
                 if(substr_count($rec[$fieldName], "<a href") <= 0)
                 {
                     $linkCount = substr_count($rec[$fieldName], "http");
