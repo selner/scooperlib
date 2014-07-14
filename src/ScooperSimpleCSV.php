@@ -270,10 +270,10 @@ class ScooperSimpleCSV
         }
         $strHTMLReturn .= "</tr></thead>";
 
-
+        $fOdd = true;
         foreach($arrCSVRows as $rec)
         {
-            $strHTMLReturn .= "<tr class=\"CSVTableRow\">";
+            $strHTMLReturn .= "<tr class=\"CSVTableRow " . ($fOdd ? "odd_row" : "even_row") ."\">";
             foreach($arrFieldsToUseInKey as $fieldName)
             {
                 $strHTMLReturn .= "<td class=\"CSVTableCell\">";
@@ -302,6 +302,7 @@ class ScooperSimpleCSV
                 }
             }
             $strHTMLReturn .= "</tr>";
+            $fOdd = !$fOdd;
         }
         $strHTMLReturn .= "</table>";
 
