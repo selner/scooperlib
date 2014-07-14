@@ -372,6 +372,10 @@ function get_FileDetails_fromPharseOption($optUserKeyName, $fFileRequired)
 {
     $ret = null;
     $valOpt = get_PharseOptionValue($optUserKeyName);
+
+//    $fMatched = preg_match("/^['|\"]([^'\"]{1,})['|\"]$/", $valOpt, $arrMatches);
+//    if($fMatched) $valOpt = $arrMatches[1];
+
     if($valOpt) $ret = \Scooper\parseFilePath($valOpt, $fFileRequired);
 
     return $ret;
