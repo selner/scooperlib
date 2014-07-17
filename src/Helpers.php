@@ -275,6 +275,16 @@ define('DEFAULT_SCRUB', REMOVE_PUNCT | HTML_DECODE | LOWERCASE | REMOVE_EXTRA_WH
 function strScrub($str, $flags = null)
 {
     if($flags == null)  $flags = REMOVE_EXTRA_WHITESPACE;
+
+    // If this isn't a valid string we can process,
+    // log a warning and return the value back to the caller untouched.
+    //
+    if($str == null || !isset($str) || !is_string($str))
+    {
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("strScrub was called with an invalid value to scrub (not a string, null, or similar.  Cannot scrub the passed value: " . var_export($str, true), C__DISPLAY_WARNING__);
+        return $str;
+    }
+
     $ret = $str;
 
 
