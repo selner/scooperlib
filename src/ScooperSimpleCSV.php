@@ -133,7 +133,7 @@ class ScooperSimpleCSV
 
     function readAllRecords($fHasHeaderRow, $arrKeysToUse = null, $sheetName = null)
     {
-        $GLOBALS['logger']->logLine("Reading all records for file type =".$this->__getFileType__()."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Reading all records for file type =".$this->__getFileType__()."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
 
         $ret = null;
 
@@ -147,7 +147,7 @@ class ScooperSimpleCSV
             //             $ret =   $this->__readAllRecords_Excel__($fHasHeaderRow, $arrKeysToUse, $sheetName);
             //               break;
             default:
-                $GLOBALS['logger']->logLine("Unsupported file type.  Extension=".$this->detailsFile['file_extension']."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ERROR__);
+                if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Unsupported file type.  Extension=".$this->detailsFile['file_extension']."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ERROR__);
                 break;
         }
 
@@ -157,7 +157,7 @@ class ScooperSimpleCSV
 
     private function __readAllRecords_CSV__($fHasHeaderRow, $arrKeysToUse = null)
     {
-        $GLOBALS['logger']->logLine("Reading CSV records from: ".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Reading CSV records from: ".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
 
         $arrDataLoaded = array();
         $nInputRow = 0;
@@ -357,14 +357,14 @@ class ScooperSimpleCSV
 
     function readMultipleCSVsAndCombine($arrFullPaths, $keysToUse = null, $arrKeysToUseForDedupe = null)
     {
-        $GLOBALS['logger']->logLine("readMultipleCSVsAndCombine . " . $strOutFilePath, C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("readMultipleCSVsAndCombine . " . $strOutFilePath, C__DISPLAY_ITEM_DETAIL__);
 
-        $GLOBALS['logger']->logLine("Loading and combining CSV records from " . count($arrFullPaths)." files.", C__DISPLAY_ITEM_START__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Loading and combining CSV records from " . count($arrFullPaths)." files.", C__DISPLAY_ITEM_START__);
 
         $arrRecordsCombined = null;
         foreach($arrFullPaths as $curFilePath)
         {
-            $GLOBALS['logger']->logLine("Loading ". $curFilePath." for combining into CSV records...", C__DISPLAY_ITEM_DETAIL__);
+            if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Loading ". $curFilePath." for combining into CSV records...", C__DISPLAY_ITEM_DETAIL__);
 
             if(is_file($curFilePath))
             {
@@ -373,7 +373,7 @@ class ScooperSimpleCSV
                 $arrCSVInput = $classCurrentInput->__readAllRecords_CSV__(true, $keysToUse);
                 $arrCSVInput = $arrCSVInput ['data_rows'];
 
-                $GLOBALS['logger']->logLine("readAllRecords returned " . count($arrCSVInput) . " for ".$curFilePath, C__DISPLAY_ITEM_DETAIL__);
+                if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("readAllRecords returned " . count($arrCSVInput) . " for ".$curFilePath, C__DISPLAY_ITEM_DETAIL__);
 
                 if(count($arrCSVInput) > 0)
                 {
@@ -386,25 +386,25 @@ class ScooperSimpleCSV
                         $arrRecordsCombined = array_merge($arrRecordsCombined, $arrCSVInput);
 
                     }
-                    $GLOBALS['logger']->logLine("Added  ". count($arrCSVInput) . " records from " . $curFilePath . ". Total record counts is now ". count($arrRecordsCombined) .".", C__DISPLAY_ITEM_DETAIL__);
+                    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Added  ". count($arrCSVInput) . " records from " . $curFilePath . ". Total record counts is now ". count($arrRecordsCombined) .".", C__DISPLAY_ITEM_DETAIL__);
 
                 }
                 else
                 {
-                    $GLOBALS['logger']->logLine("Warning: No rows were loaded from " . $curFilePath, C__DISPLAY_ERROR__);
+                    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Warning: No rows were loaded from " . $curFilePath, C__DISPLAY_ERROR__);
 
                 }
 
             }
         }
 
-        $GLOBALS['logger']->logLine("Total records before de-dupe= ". count($arrRecordsCombined) . "...", C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Total records before de-dupe= ". count($arrRecordsCombined) . "...", C__DISPLAY_ITEM_DETAIL__);
 
         // sort the list and get to only the uniq records we haven't seen before
         $arrUniq = $this->getSortedDeDupedCSVArray($arrRecordsCombined, $arrKeysToUseForDedupe );
 
 
-        $GLOBALS['logger']->logLine("Loaded " . count($arrUniq). " unique records from " . count($arrFullPaths)." files.", C__DISPLAY_ITEM_RESULT__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Loaded " . count($arrUniq). " unique records from " . count($arrFullPaths)." files.", C__DISPLAY_ITEM_RESULT__);
 
         return $arrUniq;
 
@@ -422,12 +422,12 @@ class ScooperSimpleCSV
             case 'Excel2007':
                 if($keysToUseForOutputCSV != null || $arrKeysToUseForDedupe != null)
                 {
-                    $GLOBALS['logger']->logLine("Data is not deduped when writing to Excel. Keys also cannot be set. File=".$this->detailsFile['full_file_path'], C__DISPLAY_WARNING__);
+                    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Data is not deduped when writing to Excel. Keys also cannot be set. File=".$this->detailsFile['full_file_path'], C__DISPLAY_WARNING__);
                 }
                 $this->combineMultipleCSVsToExcel($arrFullFilePaths);
                 break;
             default:
-                $GLOBALS['logger']->logLine("Unsupported file type.  Extension=".$this->detailsFile['file_extension']."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
+                if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Unsupported file type.  Extension=".$this->detailsFile['file_extension']."; File=".$this->detailsFile['full_file_path'], C__DISPLAY_ITEM_DETAIL__);
                 break;
         }
     }
@@ -440,7 +440,7 @@ class ScooperSimpleCSV
         // sort the list and get to only the uniq records we haven't seen before
         $arrUniq = $this->getSortedDeDupedCSVArray($arrRecordsCombinedOutput, $arrKeysToUseForDedupe );
 
-        $GLOBALS['logger']->logLine("Total of " . count($arrUniq) ." unique records out of " . count($arrRecordsCombinedOutput)." records will be written to  ".$this->detailsFile['full_file_path'].".", C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Total of " . count($arrUniq) ." unique records out of " . count($arrRecordsCombinedOutput)." records will be written to  ".$this->detailsFile['full_file_path'].".", C__DISPLAY_ITEM_DETAIL__);
 
         // write the uniq values out to the results file
         $this->writeArrayToCSVFile($arrUniq, $keysToUseForOutputCSV );

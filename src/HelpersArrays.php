@@ -158,7 +158,7 @@ function my_merge_add_new_keys( $arr1, $arr2 )
     $arrMerged =  array_replace( $arrNewBlankCombinedRecord, $arr1 );
     $arrMerged =  array_replace( $arrMerged, $arr2 );
 
-    $GLOBALS['logger']->logLine('returning from ' . $strFunc, C__DISPLAY_FUNCTION__, true);
+    if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine('returning from ' . $strFunc, C__DISPLAY_FUNCTION__, true);
     return $arrMerged;
 }
 

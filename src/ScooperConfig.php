@@ -85,7 +85,7 @@ class ScooperConfig
     {
         // Append the file name base to the directory as a new subdirectory for output
         $fullNewDirectory = $this->detailsOutputFile['directory'] . $strSubDirName;
-        $GLOBALS['logger']->logLine("Attempting to create output subdirectory: " . $fullNewDirectory , C__DISPLAY_ITEM_START__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Attempting to create output subdirectory: " . $fullNewDirectory , C__DISPLAY_ITEM_START__);
         if(is_dir($fullNewDirectory))
         {
 
@@ -97,7 +97,7 @@ class ScooperConfig
                 throw new ErrorException('Failed to create the output folder: '.$fullNewDirectory);
             }
         }
-        $GLOBALS['logger']->logLine("Created folder for results output: " . $fullNewDirectory , C__DISPLAY_SUMMARY__);
+        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Created folder for results output: " . $fullNewDirectory , C__DISPLAY_SUMMARY__);
 
         // return the new directory details
         return \Scooper\parseFilePath($fullNewDirectory, false);
@@ -142,7 +142,7 @@ class ScooperConfig
             {
                 $tempFileDetails = \Scooper\parseFilePath($pathInput['directory'].$iniInputFile['name'], true);
 
-                $GLOBALS['logger']->logLine("Processing input file '" . $pathInput['directory'].$iniInputFile['name'] . "' with type of '". $iniInputFile['type'] . "'...", C__DISPLAY_NORMAL__);
+                if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Processing input file '" . $pathInput['directory'].$iniInputFile['name'] . "' with type of '". $iniInputFile['type'] . "'...", C__DISPLAY_NORMAL__);
                 $this->__addInputFile__($tempFileDetails, $iniInputFile['type'], $iniInputFile['sheet']);
 
             }
