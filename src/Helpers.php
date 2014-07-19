@@ -276,6 +276,8 @@ function strScrub($str, $flags = null)
 {
     if($flags == null)  $flags = REMOVE_EXTRA_WHITESPACE;
 
+    if(strlen($str) == 0) return $str;
+    
     // If this isn't a valid string we can process,
     // log a warning and return the value back to the caller untouched.
     //
