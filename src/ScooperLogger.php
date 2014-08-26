@@ -89,62 +89,69 @@ Class ScooperLogger extends \Katzgrau\KLogger\Logger
                 case  C__DISPLAY_FUNCTION__:
                     $strLineBeginning = '<<<<<<<< function "';
                     $strLineEnd = '" called >>>>>>> ';
-                    $logLevel = LOG_DEBUG;
+                    $logLevel = "debug";
                     break;
 
                 case C__DISPLAY_WARNING__:
                     $strLineBeginning = PHP_EOL.PHP_EOL.'^^^^^^^^^^ "';
                     $strLineEnd = '" ^^^^^^^^^^ '.PHP_EOL;
-                    $logLevel = LOG_WARNING;
+                    $logLevel = "warning";
                     break;
 
                 case C__DISPLAY_SUMMARY__:
 
                     $strLineBeginning = PHP_EOL."************************************************************************************".PHP_EOL. PHP_EOL;
                     $strLineEnd = PHP_EOL.PHP_EOL."************************************************************************************".PHP_EOL;
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 case C__DISPLAY_SECTION_START__:
                     $strLineBeginning = PHP_EOL."####################################################################################".PHP_EOL. PHP_EOL;
                     $strLineEnd = PHP_EOL.PHP_EOL."####################################################################################".PHP_EOL;
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
 
                 case C__DISPLAY_RESULT__:
                     $strLineBeginning = '==> ';
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 case C__DISPLAY_ERROR__:
                     $strLineBeginning = '!!!!! ';
-                    $logLevel = LOG_ERR;
+                    $logLevel = "error";
                     break;
 
                 case C__DISPLAY_ITEM_START__:
                     $strLineBeginning = '---> ';
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 case C__DISPLAY_ITEM_DETAIL__:
                     $strLineBeginning = '     ';
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 case C__DISPLAY_ITEM_RESULT__:
                     $strLineBeginning = '======> ';
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 case C__DISPLAY_MOMENTARY_INTERUPPT__:
                     $strLineBeginning = '......';
-                    $logLevel = LOG_WARNING;
+                    $logLevel = "warning";
                     break;
 
                 case C__DISPLAY_NORMAL__:
                     $strLineBeginning = '';
-                    $logLevel = LOG_INFO;
+
+                    $logLevel = "info";
                     break;
 
                 default:
