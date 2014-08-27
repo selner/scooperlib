@@ -18,7 +18,7 @@ Namespace Scooper;
 
 use ErrorException;
 
-const C__STR_USER_AGENT__ = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36";
+const C__STR_USER_AGENT__ = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36";
 
 const C__API_RETURN_TYPE_OBJECT__ = 33;
 const C__API_RETURN_TYPE_ARRAY__ = 44;
