@@ -146,7 +146,7 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_USERAGENT, \Scooper\C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        if(isset($GLOBALS['OPTS']) && $GLOBALS['OPTS']['VERBOSE_API_CALLS'] != null) curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE_API_CALLS']);
+        if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS'])) curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE_API_CALLS']);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
         // curlWrapNew = only?

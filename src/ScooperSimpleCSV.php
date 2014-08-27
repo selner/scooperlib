@@ -197,7 +197,7 @@ class ScooperSimpleCSV
         {
             $this->_resetFile();
         }
-        if(!$keys)
+        if(!isset($keys))
         {
             $keys = array_keys($records[0]);
         }
@@ -319,7 +319,7 @@ class ScooperSimpleCSV
     {
         $retArray = null;
 
-        if(!$arrFieldsToUseInKey || !is_array($arrFieldsToUseInKey))
+        if(!isset($arrFieldsToUseInKey) || !is_array($arrFieldsToUseInKey))
         {
 //            __debug__printLine("Not deduping output data; primary keys to use were not set.", C__DISPLAY_MOMENTARY_INTERUPPT__);
             return $arrCSVRows;
@@ -335,7 +335,7 @@ class ScooperSimpleCSV
             {
                 $strThisKey .= $rec[$fieldName] . "-";
             }
-            if($arrKeyedCSV[$strThisKey])
+            if(isset($arrKeyedCSV[$strThisKey]))
             {
                 $arrKeyedCSV[$strThisKey] = array_merge($rec, $arrKeyedCSV[$strThisKey] );
             }
@@ -353,6 +353,7 @@ class ScooperSimpleCSV
         return $retArray;
 
     }
+
 
 
     function readMultipleCSVsAndCombine($arrFullPaths, $keysToUse = null, $arrKeysToUseForDedupe = null)
