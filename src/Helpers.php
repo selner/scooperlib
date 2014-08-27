@@ -349,7 +349,7 @@ function get_PharseOptionValue($strOptName)
     $strOptGiven = $strOptName."_given";
     if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS'][$strOptGiven]) && $GLOBALS['OPTS'][$strOptGiven] == true)
     {
-        if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
+        if(isset($GLOBALS['logger']) && isset($GLOBALS['VERBOSE'])) $GLOBALS['logger']->logLine("'".$strOptName ."'"."=[".$GLOBALS['OPTS'][$strOptName] ."]", C__DISPLAY_ITEM_DETAIL__);
         $retvalue = $GLOBALS['OPTS'][$strOptName];
     }
     else
