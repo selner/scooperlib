@@ -13,6 +13,7 @@ class ScooperDataAPIWrapperTest // extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->api = new \Scooper\ScooperDataAPIWrapper();
+        $this->api->setVerbose(true);
     }
 
     public function testgetObjectsFromAPICall()

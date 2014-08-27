@@ -32,6 +32,20 @@ class ScooperDataAPIWrapper {
     /****                                                                                                        ****/
     /****************************************************************************************************************/
 
+    private $fVerboseLogging = false;
+
+    function __construct()
+    {
+        if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS']))
+        {
+            $this->fVerboseLogging = $GLOBALS['OPTS']['VERBOSE_API_CALLS'];
+        }
+    }
+    function setVerbose($fVerbose = true)
+    {
+        $this->fVerboseLogging = $fVerbose;
+    }
+
     private function __handleCallback__($callback, &$val, $fReturnType = C__API_RETURN_TYPE_OBJECT__ )
     {
 
@@ -83,7 +97,7 @@ class ScooperDataAPIWrapper {
                 //
                 if($srcdata->next_page)
                 {
-                    if($GLOBALS['OPTS']['VERBOSE'] == true) { if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine('Multipage results detected. Getting results for ' . $srcdata->next_page . '...' . PHP_EOL, C__DISPLAY_ITEM_DETAIL__); }
+                    if($this->fVerboseLogging == true) { if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine('Multipage results detected. Getting results for ' . $srcdata->next_page . '...' . PHP_EOL, C__DISPLAY_ITEM_DETAIL__); }
 
                     // $patternPage = "/.*page=([0-9]{1,})/";
                     $patternPagePrefix = "/.*page=/";
@@ -146,7 +160,7 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_USERAGENT, \Scooper\C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS'])) curl_setopt($ch, CURLOPT_VERBOSE, $GLOBALS['OPTS']['VERBOSE_API_CALLS']);
+        curl_setopt($ch, CURLOPT_VERBOSE, $this->fVerboseLogging);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
         // curlWrapNew = only?
