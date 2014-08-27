@@ -121,7 +121,7 @@ class ScooperSimpleCSV
         if($fp)
             $this->_fp_ = $fp;
         else
-            throw new ErrorException("Unable to open file '". $filepath . "' with access mode of '".$strAccessMode."'.".PHP_EOL .error_get_last()['message']) ;
+            throw new ErrorException("Unable to open file '". $this->detailsFile['full_file_path'] . "' with access mode of '".$strAccessMode."'.".PHP_EOL .error_get_last()['message']) ;
     }
 
     private function _resetFile()
