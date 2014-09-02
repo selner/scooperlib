@@ -139,9 +139,12 @@ class ScooperDataAPIWrapper {
 
 
 
-    function cURL($full_url, $json = null, $action = 'GET', $content_type = null, $pagenum = null, $onbehalf = null, $fileUpload = null)
+    function cURL($full_url, $json = null, $action = 'GET', $content_type = null, $pagenum = null, $onbehalf = null, $fileUpload = null, $secsTimeout = null)
     {
-
+        if(!isset($secsTimeout))
+        {
+            $secsTimeout= 10;
+        }
 
         $curl_object = array('input_url' => '', 'actual_site_url' => '', 'error_number' => 0, 'output' => '', 'output_decoded'=>'');
 
@@ -159,7 +162,7 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_URL, $full_url);
         curl_setopt($ch, CURLOPT_USERAGENT, \Scooper\C__STR_USER_AGENT__);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $secsTimeout);
         curl_setopt($ch, CURLOPT_VERBOSE, $this->fVerboseLogging);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
 
