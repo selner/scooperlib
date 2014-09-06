@@ -193,6 +193,13 @@ class ScooperSimpleCSV
 
     function writeArrayToHTMLFile($records, $keys=null, $arrKeysToUseToDedupe = null, $strCSSToInclude = null)
     {
+
+        if(!isset($records) || !is_array($records))
+        {
+            if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Warning:  No records found to be written to HTML file.  File will be empty.", C__DISPLAY_WARNING__);
+            return;
+        }
+
         if($this->_strAccessMode_[0] == 'w' || $this->_strAccessMode_[0] == 'w')
         {
             $this->_resetFile();
@@ -212,6 +219,11 @@ class ScooperSimpleCSV
 
     function writeArrayToCSVFile($records, $keys=null, $arrKeysToUseToDedupe = null)
     {
+        if(!isset($records) || !is_array($records))
+        {
+            if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine("Warning:  No records found to be written to CSV file.  File will be empty.", C__DISPLAY_WARNING__);
+            return;
+        }
 
         if($this->_strAccessMode_[0] == 'w' || $this->_strAccessMode_[0] == 'w')
         {
