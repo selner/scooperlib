@@ -85,10 +85,10 @@ class ScooperDataAPIWrapper {
             else
             {
 
-                foreach($srcdata->$objName as $value)
+                foreach($srcdata->$objName as $key => $value)
                 {
                     $this->__handleCallback__($callback, $value, $fReturnType);
-                    $retData[] = $value;
+                    $retData[$key] = $value;
                 }
 
                 //
@@ -110,10 +110,10 @@ class ScooperDataAPIWrapper {
                     // before return.  This allows for multiple page result sets from Zendesk API
                     //
 
-                    foreach($retSecondary as $moreVal)
+                    foreach($retSecondary as $moreKey => $moreVal)
                     {
                         $this->__handleCallback__($callback, $moreVal, $fReturnType);
-                        $retData[] = $moreVal;
+                        $retData[$moreKey] = $moreVal;
                     }
                 }
             }
@@ -153,8 +153,8 @@ class ScooperDataAPIWrapper {
             $full_url .= "?page=" . $pagenum;
         }
         $header = array();
-        if($onbehalf != null) $header[] = ', X-On-Behalf-Of: ' . $onbehalf;
-        if($content_type  != null) $header[] = ', X-On-Behalf-Of: ' . $onbehalf;
+        if($onbehalf != null) $header[] = 'X-On-Behalf-Of: ' . $onbehalf;
+        if($content_type  != null) $header[] = 'Content-type: ' . $content_type;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
