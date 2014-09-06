@@ -106,7 +106,9 @@ class ScooperConfig
 
     private function _setConfig_()
     {
-        if($this->config->output)
+        if(!isset($this->config)) return;
+
+        if(isset($this->config->output))
         {
             if($this->config->output->folder)
             {
@@ -115,7 +117,7 @@ class ScooperConfig
 
         }
 
-        if($this->config->emails )
+        if(isset($this->config->emails ))
         {
             foreach($this->config->emails as $emailItem)
             {
@@ -131,12 +133,12 @@ class ScooperConfig
         }
 
         $pathInput = "";
-        if($this->config->input && $this->config->input->folder)
+        if(isset($this->config->input) && isset($this->config->input->folder))
         {
             $pathInput = \Scooper\parseFilePath($this->config->input->folder);
         }
 
-        if($this->config->inputfiles)
+        if(isset($this->config->inputfiles))
         {
             foreach($this->config->inputfiles as $iniInputFile)
             {
