@@ -72,7 +72,7 @@ class ScooperDataAPIWrapper {
         $curl_obj = $this->cURL($baseURL, "", "GET", "application/json", $pagenum);
 
         $srcdata = json_decode($curl_obj['output']);
-        if($srcdata != null)
+        if(isset($srcdata))
         {
             if($objName == "")
             {
@@ -95,7 +95,7 @@ class ScooperDataAPIWrapper {
                 // If the data returned has a next_page value, then we have more results available
                 // for this query that we need to also go get.  Do that now.
                 //
-                if($srcdata->next_page)
+                if(isset($srcdata->next_page))
                 {
                     if($this->fVerboseLogging == true) { if(isset($GLOBALS['logger'])) $GLOBALS['logger']->logLine('Multipage results detected. Getting results for ' . $srcdata->next_page . '...' . PHP_EOL, C__DISPLAY_ITEM_DETAIL__); }
 
