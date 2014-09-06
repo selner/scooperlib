@@ -16,7 +16,12 @@ $class = new ScooperLogger();
 $class->logLine("Test", \Scooper\C__DISPLAY_ERROR__);
 
 $classAPI = new ScooperDataAPIWrapperTest();
-$classAPI->setUp();
+$classAPI->setUp('https://api.angel.co/1/startups/32385', null);
+$classAPI->testgetObjectsFromAPICall();
+
+
+$classAPI = new ScooperDataAPIWrapperTest();
+$classAPI->setUp('https://api.angel.co/1/startups/32385', 'locations');
 $classAPI->testgetObjectsFromAPICall();
 
 $classCSV = new ScooperSimpleCSVTest();
