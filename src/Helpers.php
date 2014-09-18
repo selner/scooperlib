@@ -25,7 +25,26 @@ function getDefaultFileName($strFilePrefix, $strBase, $strExt)
     return sprintf($strApp . date("Ymd-Hms")."%s_%s.%s", ($strFilePrefix != null ? "_".$strFilePrefix : ""), ($strBase != null  ? "_".$strBase : ""), $strExt);
 }
 
+function combineTextAllChildren($node, $fRecursed = false)
+{
 
+    $retStr = "";
+    if($node->hasChildNodes())
+    {
+        $retStr = \Scooper\strScrub($node->plaintext . " " . $retStr, HTML_DECODE | REMOVE_EXTRA_WHITESPACE  );
+        foreach($node->childNodes() as $child)
+        {
+            $retStr = $retStr . " " . combineTextAllChildren($child, true);
+        }
+    }
+    elseif(isset($node->plaintext) && $fRecursed == false)
+    {
+        $retStr = \Scooper\strScrub($node->plaintext . " " . $retStr, HTML_DECODE | REMOVE_EXTRA_WHITESPACE  );
+    }
+
+    return $retStr;
+
+}
 function getFullPathFromFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "")
 {
     return $arrFileDetails['directory'] . getFileNameFromFileDetails($arrFileDetails, $strPrependToFileBase, $strAppendToFileBase);

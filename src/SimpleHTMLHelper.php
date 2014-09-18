@@ -171,13 +171,15 @@ class SimpleHTMLHelper
             }
             else
             {
+                $subNodeElement = null;
+
                 if(isset($retIndex) && isset($subNode[$retIndex]))
                 {
                     $subNodeElement = $subNode[$retIndex];
                 }
                 elseif(isset($retIndex) && !isset($subNode[$retIndex]))
                 {
-                    throw new ErrorException("Node element (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                    $this->throwExceptIfRequired("Node element (" . $strNodePath .")[" . $retIndex . "] was not found.");
                 }
                 else
                 {
@@ -194,7 +196,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($optPropOrAttrName) || !isset($subNodeElement->$optPropOrAttrName))
                     {
-                        throw new ErrorException("Property '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Property '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
                     }
                     else
                     {
@@ -205,7 +207,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($optPropOrAttrName) || !isset($subNodeElement->attr[$optPropOrAttrName]))
                     {
-                        throw new ErrorException("Attribute '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Attribute '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
                     }
                     else
                     {
@@ -224,7 +226,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($subNodeElement->plaintext))
                     {
-                        throw new ErrorException("Plaintext value for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Plaintext value for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
                     }
                     else
                     {
@@ -234,17 +236,22 @@ class SimpleHTMLHelper
             }
         } catch (Exception $ex) {
             $strErr = $ex->getMessage();
-            if(\Scooper\isBitFlagSet($flags, C__SIMPLEHTML_THROWEXCEPTION ))
-            {
-                $GLOBALS['logger']->logLine("Error getting SimpleObjectHTML node:  " . $strErr, \Scooper\C__DISPLAY_ERROR__);
-                throw $ex;
-            }
-            else
-            {
-                if(isDebug()) $GLOBALS['logger']->logLine("" . $strErr, \Scooper\C__DISPLAY_ITEM_DETAIL__);
-            }
+            $this->throwExceptIfRequired($strErr);
         }
 
         return $ret;
+    }
+
+    function throwExceptIfRequired($strErr)
+    {
+        if(\Scooper\isBitFlagSet($flags, C__SIMPLEHTML_THROWEXCEPTION ))
+        {
+            $GLOBALS['logger']->logLine("Error getting SimpleObjectHTML node:  " . $strErr, \Scooper\C__DISPLAY_ERROR__);
+            throw $ex;
+        }
+        else
+        {
+            if(isDebug()) $GLOBALS['logger']->logLine("" . $strErr, \Scooper\C__DISPLAY_ITEM_DETAIL__);
+        }
     }
 }
