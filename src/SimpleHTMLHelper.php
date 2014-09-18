@@ -40,7 +40,18 @@ class CSimpleHTMLHelper
             if(is_string($objParam))
             {
                 $this->url = $objParam;
-                $this->nodeObj = \SimpleHtmlDom\file_get_html($this->url);
+                $class = new \Scooper\ScooperDataAPIWrapper();
+                $retOutput = $class->cURL($this->url,'' , 'GET', 'application/html');
+                if(isset($retOutput) && $retOutput['error_number'] == 0)
+                {
+                    $html = $retOutput['output'];
+                    $this->nodeObj = \SimpleHtmlDom\str_get_html($html);
+                }
+                else
+                {
+                    var_dump($retOutput);
+                    exit("Error downloading URL" . $this->url);
+                }
             }
             elseif(strcasecmp(get_class($objParam), "SimpleHtmlDom") == 0)
             {

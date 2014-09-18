@@ -18,7 +18,7 @@ $class->logLine("Test", \Scooper\C__DISPLAY_ERROR__);
 
 
 $simpHTMLObj = new \Scooper\CSimpleHTMLHelper("http://www.payscale.com");
-$simpHTMLObj = new \Scooper\CSimpleHTMLHelper(\SimpleHtmlDom\file_get_html("http://www.redfin.com"));
+$simpHTMLObj = new \Scooper\CSimpleHTMLHelper(\SimpleHtmlDom\file_get_html("http://www.bryanselner.com"));
 
 
 
