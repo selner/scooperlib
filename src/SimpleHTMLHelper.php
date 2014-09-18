@@ -32,6 +32,9 @@ class SimpleHTMLHelper
 {
     private $nodeObj = null;
     private $url = null;
+    private $html = null;
+
+    function getHTML() { return $this->html; }
 
     function __construct($objParam)
     {
@@ -44,8 +47,8 @@ class SimpleHTMLHelper
                 $retOutput = $class->cURL($this->url,'' , 'GET', 'application/html');
                 if(isset($retOutput) && $retOutput['error_number'] == 0)
                 {
-                    $html = $retOutput['output'];
-                    $this->nodeObj = \SimpleHtmlDom\str_get_html($html);
+                    $this->html = $retOutput['output'];
+                    $this->nodeObj = \SimpleHtmlDom\str_get_html($this->html);
                 }
                 else
                 {
