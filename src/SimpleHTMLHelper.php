@@ -77,6 +77,20 @@ class SimpleHTMLHelper
         return $this->getNodeValue($strNodePath, $retIndex, $flags);
     }
 
+    function getSimpleNode($strNodePath, $retIndex = null, $fRequired = true)
+    {
+        $node = $this->get($strNodePath, $retIndex, $fRequired);
+        if(isset($node))
+        {
+            return new SimpleHTMLHelper($node);
+        }
+        else
+        {
+            throw new ErrorException("Could not create new SimpleHTMLHelper for ". $strNodePath);
+        }
+        return null;
+    }
+
     function getText($strNodePath, $retIndex, $fRequired = false, $optPropOrAttrName = null)
     {
         $flags = C__SIMPLEHTML_NOTFOUND_RETURN_EMPTYSTR | C__SIMPLEHTML_FOUND_RETURN_PLAINTEXT;
