@@ -33,8 +33,10 @@ class SimpleHTMLHelper
     private $nodeObj = null;
     private $url = null;
     private $html = null;
+    private $timeDownload = null;
 
     function getHTML() { return $this->html; }
+    function getDownloadTime() { return $this->timeDownload; }
 
     function __construct($objParam)
     {
@@ -44,9 +46,12 @@ class SimpleHTMLHelper
             {
                 $this->url = $objParam;
                 $class = new \Scooper\ScooperDataAPIWrapper();
+                $timeDownloadStart= time();
                 $retOutput = $class->cURL($this->url,'' , 'GET', 'application/html');
                 if(isset($retOutput) && $retOutput['error_number'] == 0)
                 {
+                    $timeDownloadEnd = time();
+                    $this->timeDownload = $timeDownloadEnd - $timeDownloadStart;
                     $this->html = $retOutput['output'];
                     $this->nodeObj = \SimpleHtmlDom\str_get_html($this->html);
                 }
