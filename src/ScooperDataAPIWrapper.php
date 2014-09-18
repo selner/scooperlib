@@ -36,11 +36,9 @@ class ScooperDataAPIWrapper {
 
     function __construct()
     {
-        if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS']))
-        {
-            $this->fVerboseLogging = $GLOBALS['OPTS']['VERBOSE_API_CALLS'];
-        }
+        $this->fVerboseLogging = isVerbose();
     }
+
     function setVerbose($fVerbose = true)
     {
         $this->fVerboseLogging = $fVerbose;

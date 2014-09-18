@@ -82,7 +82,7 @@ class SimpleHTMLHelper
         $node = $this->get($strNodePath, $retIndex, $fRequired);
         if(isset($node))
         {
-            if(is_array($node) && count($node) >= 1 && strcasecmp(get_class($node[0]),'simple_html_dom_node') == 0)
+            if(is_array($node) && count($node) >= 1 && strcasecmp(get_class($node[0]),'SimpleHtmlDom\simple_html_dom_node') == 0)
             {
                 $retArr = array();
                 foreach($node as $nd)
