@@ -179,7 +179,7 @@ class SimpleHTMLHelper
                 }
                 elseif(isset($retIndex) && !isset($subNode[$retIndex]))
                 {
-                    $this->throwExceptIfRequired("Node element (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                    $this->throwExceptIfRequired("Node element (" . $strNodePath .")[" . $retIndex . "] was not found.", $flags);
                 }
                 else
                 {
@@ -196,7 +196,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($optPropOrAttrName) || !isset($subNodeElement->$optPropOrAttrName))
                     {
-                        $this->throwExceptIfRequired("Property '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Property '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.", $flags);
                     }
                     else
                     {
@@ -207,7 +207,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($optPropOrAttrName) || !isset($subNodeElement->attr[$optPropOrAttrName]))
                     {
-                        $this->throwExceptIfRequired("Attribute '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Attribute '" . $optPropOrAttrName . "' for node (" . $strNodePath .")[" . $retIndex . "] was not found.", $flags);
                     }
                     else
                     {
@@ -226,7 +226,7 @@ class SimpleHTMLHelper
                 {
                     if(!isset($subNodeElement->plaintext))
                     {
-                        $this->throwExceptIfRequired("Plaintext value for node (" . $strNodePath .")[" . $retIndex . "] was not found.");
+                        $this->throwExceptIfRequired("Plaintext value for node (" . $strNodePath .")[" . $retIndex . "] was not found.", $flags);
                     }
                     else
                     {
@@ -236,13 +236,13 @@ class SimpleHTMLHelper
             }
         } catch (Exception $ex) {
             $strErr = $ex->getMessage();
-            $this->throwExceptIfRequired($strErr);
+            $this->throwExceptIfRequired($strErr, $flags);
         }
 
         return $ret;
     }
 
-    function throwExceptIfRequired($strErr)
+    function throwExceptIfRequired($strErr, $flags)
     {
         if(\Scooper\isBitFlagSet($flags, C__SIMPLEHTML_THROWEXCEPTION ))
         {
