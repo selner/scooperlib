@@ -28,7 +28,7 @@ const C__SIMPLEHTML_FOUND_RETURN_ATTRIB = 0x20;
 const C__SIMPLEHTML_FOUND_RETURN_NODE = 0x40;
 const C__SIMPLEHTML_FOUND_RETURN_ALLCHILDREN = 0x80;
 
-class CSimpleHTMLHelper
+class SimpleHTMLHelper
 {
     private $nodeObj = null;
     private $url = null;
