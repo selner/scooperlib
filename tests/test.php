@@ -15,6 +15,13 @@ testAllHelpers();
 $class = new ScooperLogger();
 $class->logLine("Test", \Scooper\C__DISPLAY_ERROR__);
 
+
+
+$simpHTMLObj = new \Scooper\CSimpleHTMLHelper("http://www.payscale.com");
+$simpHTMLObj = new \Scooper\CSimpleHTMLHelper(\SimpleHtmlDom\file_get_html("http://www.redfin.com"));
+
+
+
 $classAPI = new ScooperDataAPIWrapperTest();
 $classAPI->setUp('https://api.angel.co/1/startups/32385', null);
 $classAPI->testgetObjectsFromAPICall();

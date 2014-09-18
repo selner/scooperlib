@@ -19,4 +19,5 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once __DIR__ . '/ScooperLogger.php';
 require_once __DIR__ . '/ScooperDataAPIWrapper.php';
+require_once __DIR__ . '/SimpleHTMLHelper.php';
 
