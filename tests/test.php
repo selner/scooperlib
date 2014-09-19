@@ -20,6 +20,10 @@ $class->logLine("Test", \Scooper\C__DISPLAY_ERROR__);
 $simpHTMLObj = new \Scooper\SimpleHTMLHelper("http://www.payscale.com");
 var_dump($simpHTMLObj->getDownloadTime());
 $simpHTMLObj = new \Scooper\SimpleHTMLHelper(\SimpleHtmlDom\file_get_html("http://www.bryanselner.com"));
+$node = $simpHTMLObj->getSimpleHtmlDOMNodeObject();
+$body = $node->find("body");
+assert(isset($body));
+// $simpHTMLObj = new \Scooper\SimpleHTMLHelper(\SimpleHtmlDom\file_get_html("http://BADURL.bryanselner.com"));
 
 
 

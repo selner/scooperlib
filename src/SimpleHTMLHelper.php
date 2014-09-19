@@ -37,6 +37,7 @@ class SimpleHTMLHelper
 
     function getHTML() { return $this->html; }
     function getDownloadTime() { return $this->timeDownload; }
+    function getSimpleHtmlDOMNodeObject() { return $this->nodeObj; }
 
     function __construct($objParam)
     {
@@ -61,12 +62,18 @@ class SimpleHTMLHelper
                     exit("Error downloading URL" . $this->url);
                 }
             }
-            elseif(strcasecmp(get_class($objParam), "SimpleHtmlDom") == 0)
+            elseif(is_object($objParam) && strcasecmp(get_class($objParam), "SimpleHtmlDom\\simple_html_dom") == 0)
             {
                 $this->nodeObj = $objParam;
+
             }
         }
-        else throw new ErrorException("Required simple_html_dom_node or simple_html_dom object was not set.");
+
+
+        if(!isset($objParam) || $objParam == false)
+        {
+            throw new ErrorException("Required simple_html_dom_node or simple_html_dom object was not set.");
+        }
 
     }
 
@@ -240,7 +247,7 @@ class SimpleHTMLHelper
                     }
                 }
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $strErr = $ex->getMessage();
             $this->throwExceptIfRequired($strErr, $flags);
         }
@@ -253,7 +260,7 @@ class SimpleHTMLHelper
         if(\Scooper\isBitFlagSet($flags, C__SIMPLEHTML_THROWEXCEPTION ))
         {
             $GLOBALS['logger']->logLine("Error getting SimpleObjectHTML node:  " . $strErr, \Scooper\C__DISPLAY_ERROR__);
-            throw $ex;
+            throw new ErrorException($strErr);
         }
         else
         {
