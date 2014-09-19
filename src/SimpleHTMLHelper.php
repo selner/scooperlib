@@ -53,8 +53,8 @@ class SimpleHTMLHelper
                     $timeDownloadEnd = time();
                     $this->timeDownload = $timeDownloadEnd - $timeDownloadStart;
                     $this->html = $retOutput['output'];
-                    $this->nodeObj = \SimpleHtmlDom\str_get_html($this->html);
-                }
+                    $this->nodeObj = \SimpleHtmlDom\str_get_html($this->html, false, true, DEFAULT_TARGET_CHARSET, false);
+               }
                 else
                 {
                     var_dump($retOutput);
@@ -75,7 +75,7 @@ class SimpleHTMLHelper
         if(isset($this->nodeObj) && is_object($this->nodeObj) && strcasecmp(get_class($this->nodeObj), "SimpleHtmlDom") == 0)
             $this->nodeObj->clear();
     }
-    
+
     function get($strNodePath, $retIndex = null, $fRequired = true)
     {
         $flags = C__SIMPLEHTML_FOUND_RETURN_NODE;
