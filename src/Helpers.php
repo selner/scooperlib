@@ -209,7 +209,7 @@ function getFilePathDetailsFromString($strFilePath, $flags = C__FILEPATH_NO_FLAG
         throw new \ErrorException("File '" . $fileDetailsReturn['full_file_path'] . "' does not exist.");
     }
 
-    if(isBitFlagSet($flags, C__FILEPATH_CREATE_DIRECTORY_PATH_IF_NEEDED) && !is_dir($strFilePath))
+    if(isBitFlagSet($flags, C__FILEPATH_CREATE_DIRECTORY_PATH_IF_NEEDED) && !is_dir($fileDetailsReturn['directory']))
     {
         mkdir($fileDetailsReturn['directory'], 0777, true);
     }
