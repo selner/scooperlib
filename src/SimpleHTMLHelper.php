@@ -70,6 +70,12 @@ class SimpleHTMLHelper
 
     }
 
+    function __destruct()
+    {
+        if(isset($this->nodeObj) && is_object($this->nodeObj) && strcasecmp(get_class($this->nodeObj), "SimpleHtmlDom") == 0)
+            $this->nodeObj->clear();
+    }
+    
     function get($strNodePath, $retIndex = null, $fRequired = true)
     {
         $flags = C__SIMPLEHTML_FOUND_RETURN_NODE;
