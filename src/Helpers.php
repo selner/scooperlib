@@ -16,7 +16,7 @@ function isBitFlagSet($flagSettings, $flagToCheck)
 }
 
 
-function isVerbose() { return (isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS'])); }
+function isVerbose() { if(isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['VERBOSE_API_CALLS'])) return $GLOBALS['OPTS']['VERBOSE_API_CALLS']; }
 function isDebug() { return (isset($GLOBALS['OPTS']) && isset($GLOBALS['OPTS']['DEBUG'])); }
 
 function getDefaultFileName($strFilePrefix, $strBase, $strExt)
