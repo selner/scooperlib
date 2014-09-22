@@ -6,11 +6,12 @@ class ScooperSimpleCSVTest // extends \PHPUnit_Framework_TestCase
 {
     private $arrTest = null;
 
-    public function setUp()
+    public function setUp($arr = null)
     {
         $GLOBALS['logger'] = new \Scooper\ScooperLogger(sys_get_temp_dir());
 
-        $this->arrTest = array(array("one", "two"));
+        $this->arrTest = $arr;
+        if(!isset($arr)) $this->arrTest = array(array("one", "two"));
     }
 
     public function testWriteArrayToFile($strExt)

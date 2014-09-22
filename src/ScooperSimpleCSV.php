@@ -227,9 +227,9 @@ class ScooperSimpleCSV
 
         if(!is_array_multidimensional($records))
         {
-            $records = array($records);
+            foreach($records as $k_rec => $v_rec)
+                $records[$k_rec] = array('result' => $v_rec);
         }
-
 
         if($this->_strAccessMode_[0] == 'w' || $this->_strAccessMode_[0] == 'w')
         {
