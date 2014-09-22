@@ -16,7 +16,7 @@
  */
 
 namespace Scooper;
-use SimpleHtmlDom;
+use SimpleHtmlDom as SimpleHtmlDom;
 use ErrorException;
 
 const C__SIMPLEHTML_THROWEXCEPTION = 0x1;
@@ -28,7 +28,7 @@ const C__SIMPLEHTML_FOUND_RETURN_ATTRIB = 0x20;
 const C__SIMPLEHTML_FOUND_RETURN_NODE = 0x40;
 const C__SIMPLEHTML_FOUND_RETURN_ALLCHILDREN = 0x80;
 
-class SimpleHTMLHelper
+class SimpleHTMLHelper extends SimpleHtmlDom\simple_html_dom_node
 {
     private $nodeObj = null;
     private $url = null;
@@ -140,7 +140,7 @@ class SimpleHTMLHelper
         return $this->getNodeValue($strNodePath, $retIndex, $flags, $optPropOrAttrName);
     }
 
-    function getAttribute($strNodePath, $retIndex, $optPropOrAttrName, $fRequired = false)
+    function getAttributeValue($strNodePath, $retIndex, $optPropOrAttrName, $fRequired = false)
     {
         $flags = C__SIMPLEHTML_NOTFOUND_RETURN_EMPTYSTR | C__SIMPLEHTML_FOUND_RETURN_ATTRIB;
         if($fRequired == true)  $flags = $flags | C__SIMPLEHTML_THROWEXCEPTION ;
