@@ -221,6 +221,14 @@ function getFilePathDetailsFromString($strFilePath, $flags = C__FILEPATH_NO_FLAG
 
 }
 
+function getNewFileNameFileDetails($arrFileDetails, $strPrependToFileBase = "", $strAppendToFileBase = "", $strNewExtension = null)
+{
+    $strExt = $arrFileDetails['file_extension'];
+    if(isset($strNewExtension)) $strExt = $strNewExtension;
+
+    $strNewPath = $arrFileDetails['directory'] . $strPrependToFileBase . $arrFileDetails['file_name_base'] . $strAppendToFileBase . "." . $strExt;
+    return getFilePathDetailsFromString($strNewPath);
+}
 
 
 ////////////////////////////////////////
