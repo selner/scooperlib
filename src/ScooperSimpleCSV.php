@@ -225,6 +225,12 @@ class ScooperSimpleCSV
             return;
         }
 
+        if(!is_array_multidimensional($records))
+        {
+            $records = array($records);
+        }
+
+
         if($this->_strAccessMode_[0] == 'w' || $this->_strAccessMode_[0] == 'w')
         {
             $this->_resetFile();
