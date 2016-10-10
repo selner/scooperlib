@@ -141,7 +141,7 @@ class ScooperDataAPIWrapper {
     {
         if(!isset($secsTimeout))
         {
-            $secsTimeout= 10;
+            $secsTimeout= 30;
         }
 
         $curl_object = array('input_url' => '', 'actual_site_url' => '', 'error_number' => 0, 'output' => '', 'output_decoded'=>'');
