@@ -137,14 +137,14 @@ class ScooperDataAPIWrapper {
 
 
 
-    function cURL($full_url, $json = null, $action = 'GET', $content_type = null, $pagenum = null, $onbehalf = null, $fileUpload = null, $secsTimeout = null)
+    function cURL($full_url, $json = null, $action = 'GET', $content_type = null, $pagenum = null, $onbehalf = null, $fileUpload = null, $secsTimeout = null, $cookies = null, $referrer = null)
     {
         if(!isset($secsTimeout))
         {
             $secsTimeout= 30;
         }
 
-        $curl_object = array('input_url' => '', 'actual_site_url' => '', 'error_number' => 0, 'output' => '', 'output_decoded'=>'');
+        $curl_object = array('input_url' => '', 'actual_site_url' => '', 'error_number' => 0, 'output' => '', 'output_decoded'=>'', 'cookies'=>null, 'headers'=>null);
 
         if($pagenum > 0)
         {
@@ -153,8 +153,11 @@ class ScooperDataAPIWrapper {
         $header = array();
         if($onbehalf != null) $header[] = 'X-On-Behalf-Of: ' . $onbehalf;
         if($content_type  != null) $header[] = 'Content-type: ' . $content_type;
+        if($content_type  != null) $header[] = 'Accept: ' . $content_type;
 
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_REFERER, $referrer);
+        curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 10 );
         curl_setopt($ch, CURLOPT_URL, $full_url);
@@ -168,7 +171,8 @@ class ScooperDataAPIWrapper {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-
+        if($cookies)
+            curl_setopt($ch, CURLOPT_COOKIE,  $cookies);
 
 
         switch($action)
@@ -206,20 +210,30 @@ class ScooperDataAPIWrapper {
 
 
         $output = curl_exec($ch);
+        $curl_info = curl_getinfo($ch);
+
+        $header_size = $curl_info['header_size'];
+        $header = substr($output, 0, $header_size);
+        $headerlines = explode(PHP_EOL, $header );
+        $body = substr($output, $header_size);
+        foreach ($headerlines as $line) {
+            $exploded = explode(':', $line);
+            if(count($exploded) > 1)
+                $curl_object['headers'][$exploded[0]] = $exploded[1];
+        }
+
+
+        preg_match_all('|Set-Cookie: (.*);|U', $header, $results);
+        $cookies = implode(';', $results[1]);
+
+        $curl_object['cookies'] = $cookies;
         $curl_object['input_url'] = $full_url;
         $last_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 
         $curl_object['actual_site_url'] = strtolower($last_url);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if (curl_errno($ch))
-        {
-            $strErr = 'Error #' . curl_errno($ch) . ': ' . curl_error($ch);
-            $curl_object['error_number'] = curl_errno($ch);
-            $curl_object['output'] = curl_error($ch);
-            curl_close($ch);
-            throw new ErrorException($strErr,curl_errno($ch),E_RECOVERABLE_ERROR );
-        }     /* If the document has loaded successfully without any redirection or error */
-        elseif ($httpCode < 200 || $httpCode >= 400)
+        /* If the document has loaded successfully without any redirection or error */
+        if ($httpCode < 200 || $httpCode >= 400)
         {
             $strErr = "CURL received an HTTP error #". $httpCode;
             $curl_object['http_error_number'] = $httpCode;
@@ -227,9 +241,17 @@ class ScooperDataAPIWrapper {
             curl_close($ch);
             throw new ErrorException($strErr, E_RECOVERABLE_ERROR );
         }
+        elseif (curl_errno($ch))
+        {
+            $strErr = 'Error #' . curl_errno($ch) . ': ' . curl_error($ch);
+            $curl_object['error_number'] = curl_errno($ch);
+            $curl_object['output'] = curl_error($ch);
+            curl_close($ch);
+            throw new ErrorException($strErr,curl_errno($ch),E_RECOVERABLE_ERROR );
+        }
         else
         {
-            $curl_object['output'] = $output;
+            $curl_object['output'] = $body;
             curl_close($ch);
         }
 
