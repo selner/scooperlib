@@ -10,6 +10,10 @@ use Exception;
 
 function substr_count_array( $haystack, $needle ) {
     $count = 0;
+    if(!is_array($needle))
+    {
+        $needle = array($needle);
+    }
     foreach ($needle as $substring) {
         $count += substr_count( $haystack, $substring);
     }
