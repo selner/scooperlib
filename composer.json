@@ -17,8 +17,7 @@
     },
     "autoload": {
         "psr-0": {
-            "": "src/"
-        },
-        "files":["src/Helpers.php", "src/HelpersArrays.php" ]
+            "Scooper":"src/"
+        }
     }
 }
