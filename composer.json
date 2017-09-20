@@ -16,9 +16,9 @@
         "katzgrau/klogger": "1.0"
     },
     "autoload": {
-        "psr-0": {
-            "Scooper":"src/"
-        },
+		"classmap" : [
+			"src/"
+		],
         "files":["src/Helpers.php", "src/HelpersArrays.php" ]
     }
 }
