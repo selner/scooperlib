@@ -16,6 +16,9 @@
         "katzgrau/klogger": "1.0"
     },
     "autoload": {
-        "files":["src/Helpers.php", "src/HelpersArrays.php", "src/bootstrap.php" ]
+		"classmap" : [
+			"src/"
+		],
+        "files":["src/Helpers.php", "src/HelpersArrays.php" ]
     }
 }
